@@ -1,18 +1,37 @@
+import Link from "next/link";
 import { Zap, Globe, Share2, MessageCircle, Mail, Code } from "lucide-react";
-
-const footerLinks = {
-  Platform: ["How It Works", "Pricing", "API Access", "Affiliate Program"],
-  Sources: ["AliExpress Products", "Amazon Products", "Compare Prices", "Price Alerts"],
-  Categories: ["Electronics", "Fashion", "Home & Garden", "Gaming"],
-  Support: ["Help Center", "Contact Us", "Privacy Policy", "Terms of Service"],
+const footerLinks: Record<string, { label: string; href: string }[]> = {
+  Platform: [
+    { label: "About Us", href: "/about" },
+    { label: "All Products", href: "/search" },
+    { label: "Deals", href: "/search?q=deals" },
+    { label: "How It Works", href: "/about" },
+  ],
+  Categories: [
+    { label: "Electronics", href: "/category/electronics" },
+    { label: "Fashion", href: "/category/fashion" },
+    { label: "Gaming", href: "/category/gaming" },
+    { label: "Home & Garden", href: "/search" },
+  ],
+  Support: [
+    { label: "Contact Us", href: "/contact" },
+    { label: "Shipping Policy", href: "/shipping" },
+    { label: "Returns & Refunds", href: "/shipping" },
+    { label: "Track Your Order", href: "/contact" },
+  ],
+  Legal: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Cookie Policy", href: "/privacy" },
+    { label: "Buyer Protection", href: "/about" },
+  ],
 };
-
 const socialLinks = [
-  { icon: Globe, label: "Website", href: "#" },
+  { icon: Globe, label: "Website", href: "/" },
   { icon: Share2, label: "Share", href: "#" },
-  { icon: MessageCircle, label: "Chat", href: "#" },
-  { icon: Mail, label: "Email", href: "#" },
-  { icon: Code, label: "GitHub", href: "#" },
+  { icon: MessageCircle, label: "Chat", href: "/contact" },
+  { icon: Mail, label: "Email", href: "mailto:support@luxeshop.com" },
+  { icon: Code, label: "GitHub", href: "https://github.com/khr22-web/luxeshop-platform" },
 ];
 
 export default function Footer() {
@@ -56,14 +75,14 @@ export default function Footer() {
             <div key={section}>
               <h4 className="text-white text-sm font-semibold mb-4 tracking-wide">{section}</h4>
               <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                {links.map(({ label, href }) => (
+                  <li key={label}>
+                    <Link
+                      href={href}
                       className="text-[#8a8a9a] text-sm hover:text-[#c9a84c] transition-colors duration-200"
                     >
-                      {link}
-                    </a>
+                      {label}
+                    </Link>
                   </li>
                 ))}
               </ul>

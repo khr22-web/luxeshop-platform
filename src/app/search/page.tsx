@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
+import { searchProducts, CATEGORIES } from "@/lib/products";
 
 const SORT_OPTIONS = [
   { value: "relevance", label: "Most Relevant" },
@@ -14,54 +15,42 @@ const SORT_OPTIONS = [
   { value: "orders", label: "Best Selling" },
 ];
 
-const DEMO_PRODUCTS = [
-  { id: "1", title: "TWS Wireless Earbuds Pro — Active Noise Cancellation", price: 29.99, originalPrice: 24.99, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80", rating: 4.7, orders: 12400, source: "aliexpress" as const, badge: "Best Seller" },
-  { id: "2", title: "Smart Watch Series X5 — Health Monitor & GPS", price: 54.60, originalPrice: 45.50, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80", rating: 4.5, orders: 8900, source: "aliexpress" as const, badge: "Hot Deal" },
-  { id: "3", title: "4K Action Camera Ultra — Waterproof 30m", price: 46.79, originalPrice: 38.99, image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&q=80", rating: 4.6, orders: 5600, source: "aliexpress" as const, badge: "New" },
-  { id: "4", title: "Mechanical RGB Gaming Keyboard — TKL Layout", price: 62.40, originalPrice: 52.00, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80", rating: 4.8, orders: 9200, source: "aliexpress" as const, badge: "Top Pick" },
-  { id: "5", title: "Portable Bluetooth Speaker — 360° Surround Sound", price: 35.99, originalPrice: 29.99, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80", rating: 4.4, orders: 7100, source: "aliexpress" as const, badge: "" },
-  { id: "6", title: "Smart LED Strip Lights — 16M Colors App Control", price: 22.20, originalPrice: 18.50, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80", rating: 4.3, orders: 15800, source: "aliexpress" as const, badge: "Trending" },
-  { id: "7", title: "Wireless Charging Pad — 15W Fast Charge", price: 19.19, originalPrice: 15.99, image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&q=80", rating: 4.5, orders: 11200, source: "aliexpress" as const, badge: "" },
-  { id: "8", title: "USB-C Hub 7-in-1 — 4K HDMI, 100W PD", price: 31.79, originalPrice: 26.49, image: "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&q=80", rating: 4.6, orders: 6800, source: "aliexpress" as const, badge: "Editor's Choice" },
-  { id: "9", title: "Laptop Stand Adjustable — Aluminum Alloy", price: 26.39, originalPrice: 21.99, image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80", rating: 4.7, orders: 4500, source: "aliexpress" as const, badge: "" },
-  { id: "10", title: "Gaming Mouse — 16000 DPI RGB Programmable", price: 28.79, originalPrice: 23.99, image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&q=80", rating: 4.5, orders: 8300, source: "aliexpress" as const, badge: "" },
-  { id: "11", title: "Noise Cancelling Headphones — 40Hr Battery", price: 71.99, originalPrice: 59.99, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80", rating: 4.8, orders: 13400, source: "aliexpress" as const, badge: "Premium" },
-  { id: "12", title: "Mini Projector 1080P — Portable Home Cinema", price: 95.99, originalPrice: 79.99, image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&q=80", rating: 4.4, orders: 3200, source: "aliexpress" as const, badge: "" },
-];
-
 function SearchContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get("q") || "";
+  const categoryParam = searchParams.get("category") || "all";
   const [searchInput, setSearchInput] = useState(query);
   const [sort, setSort] = useState("relevance");
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState(categoryParam);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState(DEMO_PRODUCTS);
+  const [products, setProducts] = useState(() => searchProducts(""));
 
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
-      let filtered = DEMO_PRODUCTS.filter((p) =>
-        query ? p.title.toLowerCase().includes(query.toLowerCase()) : true
-      );
-      if (sourceFilter !== "all") filtered = filtered.filter((p) => p.source === sourceFilter);
-      filtered = filtered.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
-      if (sort === "price_asc") filtered.sort((a, b) => a.price - b.price);
-      if (sort === "price_desc") filtered.sort((a, b) => b.price - a.price);
-      if (sort === "rating") filtered.sort((a, b) => b.rating - a.rating);
-      if (sort === "orders") filtered.sort((a, b) => b.orders - a.orders);
-      setProducts(filtered);
+      const results = searchProducts(query, {
+        source: sourceFilter,
+        category: categoryFilter === "all" ? undefined : categoryFilter,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
+        sort,
+      });
+      setProducts(results);
       setLoading(false);
-    }, 600);
+    }, 300);
     return () => clearTimeout(timer);
-  }, [query, sort, priceRange, sourceFilter]);
+  }, [query, sort, priceRange, sourceFilter, categoryFilter]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(`/search?q=${encodeURIComponent(searchInput)}`);
+    const params = new URLSearchParams();
+    if (searchInput.trim()) params.set("q", searchInput.trim());
+    if (categoryFilter !== "all") params.set("category", categoryFilter);
+    router.push(`/search?${params.toString()}`);
   };
 
   return (

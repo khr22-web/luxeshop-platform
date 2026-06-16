@@ -5,81 +5,16 @@ import Link from "next/link";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Star, ShoppingCart, Heart, ArrowLeft, Shield, Truck, RefreshCw, Zap, ExternalLink, ChevronRight } from "lucide-react";
+import { Star, ShoppingCart, Heart, Shield, Truck, RefreshCw, Zap, ExternalLink, ChevronRight, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-
-const PRODUCTS: Record<string, {
-  id: string; title: string; price: number; originalPrice: number;
-  images: string[]; rating: number; orders: number; source: "aliexpress" | "amazon";
-  badge: string; description: string; specs: Record<string, string>; category: string;
-}> = {
-  "1": {
-    id: "1", title: "TWS Wireless Earbuds Pro — Active Noise Cancellation", price: 29.99, originalPrice: 24.99,
-    images: ["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80", "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&q=80", "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80"],
-    rating: 4.7, orders: 12400, source: "aliexpress", badge: "Best Seller",
-    description: "Experience premium sound quality with our TWS Wireless Earbuds Pro. Featuring advanced Active Noise Cancellation technology, these earbuds deliver crystal-clear audio in any environment. With up to 8 hours of playback and 32 hours total with the charging case, you'll never miss a beat.",
-    specs: { "Driver Size": "10mm Dynamic", "Frequency Response": "20Hz - 20kHz", "Battery Life": "8hrs + 32hrs case", "Charging": "USB-C, 1.5hr full charge", "Connectivity": "Bluetooth 5.3", "Water Resistance": "IPX5", "Weight": "5g per earbud" },
-    category: "Electronics"
-  },
-  "2": {
-    id: "2", title: "Smart Watch Series X5 — Health Monitor & GPS", price: 54.60, originalPrice: 45.50,
-    images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80", "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=600&q=80", "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&q=80"],
-    rating: 4.5, orders: 8900, source: "aliexpress", badge: "Hot Deal",
-    description: "The Smart Watch X5 combines style with advanced health monitoring. Track your heart rate, blood oxygen, sleep quality, and over 100 workout modes. With built-in GPS, you can map your runs without your phone.",
-    specs: { "Display": "1.96\" AMOLED 466×466", "Battery": "7 days typical use", "GPS": "Built-in GPS + GLONASS", "Health": "Heart Rate, SpO2, Stress", "Water Resistance": "5ATM (50m)", "Compatibility": "iOS 12+ / Android 8+", "Strap": "22mm silicone" },
-    category: "Watches"
-  },
-  "3": {
-    id: "3", title: "4K Action Camera Ultra — Waterproof 30m", price: 46.79, originalPrice: 38.99,
-    images: ["https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=80", "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&q=80", "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=600&q=80"],
-    rating: 4.6, orders: 5600, source: "aliexpress", badge: "New",
-    description: "Capture every adventure in stunning 4K resolution. The Ultra Action Camera is built for extreme conditions with 30m waterproofing, image stabilization, and a wide 170° field of view.",
-    specs: { "Video": "4K@60fps, 2.7K@120fps", "Photo": "20MP", "Stabilization": "6-axis EIS", "Waterproof": "30m without housing", "Battery": "1800mAh, 2.5hrs 4K", "Screen": "2\" touch display", "Storage": "MicroSD up to 256GB" },
-    category: "Photography"
-  },
-  "4": {
-    id: "4", title: "Mechanical RGB Gaming Keyboard — TKL Layout", price: 62.40, originalPrice: 52.00,
-    images: ["https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80", "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=600&q=80", "https://images.unsplash.com/photo-1616588589676-62b3bd4ff6d2?w=600&q=80"],
-    rating: 4.8, orders: 9200, source: "aliexpress", badge: "Top Pick",
-    description: "Dominate your game with the ultimate TKL mechanical keyboard. Features per-key RGB lighting with 16.8M colors, tactile mechanical switches, and aircraft-grade aluminum construction.",
-    specs: { "Layout": "TKL (87 keys)", "Switch": "Red / Blue / Brown options", "Lighting": "Per-key RGB 16.8M colors", "Connection": "USB-C detachable", "Anti-ghosting": "Full N-Key Rollover", "Material": "Aluminum top plate", "Polling Rate": "1000Hz" },
-    category: "Gaming"
-  },
-  "5": {
-    id: "5", title: "Portable Bluetooth Speaker — 360° Surround Sound", price: 35.99, originalPrice: 29.99,
-    images: ["https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80", "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&q=80", "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"],
-    rating: 4.4, orders: 7100, source: "aliexpress", badge: "",
-    description: "Fill any room with rich, immersive 360° sound. The portable speaker delivers powerful bass and crystal-clear highs, with IPX7 waterproofing for poolside and outdoor use.",
-    specs: { "Output Power": "30W RMS", "Frequency": "60Hz - 20kHz", "Battery": "24 hours playback", "Charging": "USB-C, 3hr full charge", "Waterproof": "IPX7", "Connectivity": "Bluetooth 5.0, AUX", "Weight": "680g" },
-    category: "Audio"
-  },
-  "6": {
-    id: "6", title: "Smart LED Strip Lights — 16M Colors App Control", price: 22.20, originalPrice: 18.50,
-    images: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=600&q=80", "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=600&q=80"],
-    rating: 4.3, orders: 15800, source: "aliexpress", badge: "Trending",
-    description: "Transform your space with 16 million colors and dynamic lighting effects. Control via app, voice assistant, or remote. Music sync mode reacts to your music in real time.",
-    specs: { "Length": "5m (16.4ft)", "LEDs": "300 LEDs/5m", "Colors": "16M RGBIC", "Control": "App / Voice / Remote", "Power": "12V 3A adapter", "Compatibility": "Alexa, Google Home", "Lifespan": "50,000 hours" },
-    category: "Home & Garden"
-  },
-};
-
-// Fill remaining products
-for (let i = 7; i <= 12; i++) {
-  PRODUCTS[String(i)] = {
-    id: String(i), title: `Premium Product ${i}`, price: 29.99 + i * 3, originalPrice: 24.99 + i * 2.5,
-    images: ["https://images.unsplash.com/photo-1625842268584-8f3296236761?w=600&q=80"],
-    rating: 4.5, orders: 5000 + i * 100, source: "aliexpress", badge: "",
-    description: "High quality product sourced directly from verified manufacturers.",
-    specs: { "Material": "Premium grade", "Warranty": "12 months" },
-    category: "Electronics"
-  };
-}
+import { PRODUCTS_MAP, PRODUCTS } from "@/lib/products";
+import ProductCard from "@/components/ProductCard";
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { addItem, count } = useCart();
-  const product = PRODUCTS[id];
+  const { addItem } = useCart();
+  const product = PRODUCTS_MAP[id];
   const [selectedImage, setSelectedImage] = useState(0);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -87,13 +22,17 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "var(--bg-primary)" }}>
+      <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-primary)" }}>
         <Navbar />
-        <div className="text-center mt-20">
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 mt-20">
           <div className="text-6xl mb-4">😕</div>
           <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Product not found</h2>
-          <Link href="/" className="text-violet-400 underline">Back to Home</Link>
+          <p className="mb-6" style={{ color: "var(--text-muted)" }}>This product doesn't exist or has been removed.</p>
+          <Link href="/search" className="px-6 py-3 rounded-xl font-semibold text-white" style={{ background: "var(--gradient-primary)" }}>
+            Browse All Products
+          </Link>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -103,11 +42,21 @@ export default function ProductPage() {
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, image: product.images[0], source: product.source });
+      addItem({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        image: product.image,
+        source: product.source,
+      });
     }
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
+
+  // Related products (same category, excluding current)
+  const related = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
@@ -115,50 +64,77 @@ export default function ProductPage() {
       <div className="pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs mb-6 mt-4" style={{ color: "var(--text-muted)" }}>
+          <div className="flex items-center gap-2 text-xs mb-6 mt-4 flex-wrap" style={{ color: "var(--text-muted)" }}>
             <Link href="/" className="hover:text-violet-400 transition-colors">Home</Link>
             <ChevronRight size={12} />
-            <Link href={`/category/${product.category.toLowerCase().replace(/ /g, "-")}`} className="hover:text-violet-400 transition-colors">{product.category}</Link>
+            <Link href={`/category/${product.category.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`} className="hover:text-violet-400 transition-colors">{product.category}</Link>
             <ChevronRight size={12} />
             <span className="truncate max-w-[200px]" style={{ color: "var(--text-secondary)" }}>{product.title}</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {/* Images */}
+            {/* ── Images ── */}
             <div>
               <div className="relative aspect-square rounded-2xl overflow-hidden mb-3" style={{ background: "var(--bg-card)" }}>
-                <Image src={product.images[selectedImage]} alt={product.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+                <Image
+                  src={product.images[selectedImage]}
+                  alt={product.title}
+                  fill
+                  className="object-cover transition-all duration-300"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  unoptimized
+                />
                 {product.badge && (
                   <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-bold text-white" style={{ background: "var(--gradient-primary)" }}>
                     {product.badge}
                   </div>
                 )}
+                <button
+                  onClick={() => setWishlisted(!wishlisted)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                  style={{ background: "rgba(0,0,0,0.5)" }}
+                >
+                  <Heart size={18} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "white"} />
+                </button>
               </div>
-              <div className="flex gap-2">
-                {product.images.map((img, i) => (
-                  <button key={i} onClick={() => setSelectedImage(i)}
-                    className="relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all"
-                    style={{ borderColor: selectedImage === i ? "var(--accent-primary)" : "var(--border-color)" }}>
-                    <Image src={img} alt="" fill className="object-cover" sizes="80px" />
-                  </button>
-                ))}
-              </div>
+              {/* Thumbnail strip */}
+              {product.images.length > 1 && (
+                <div className="flex gap-2">
+                  {product.images.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedImage(i)}
+                      className="relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0"
+                      style={{ borderColor: selectedImage === i ? "var(--accent-primary)" : "var(--border-color)" }}
+                    >
+                      <Image src={img} alt="" fill className="object-cover" sizes="80px" unoptimized />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Details */}
+            {/* ── Details ── */}
             <div>
-              {/* Source */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-3"
-                style={{ background: product.source === "aliexpress" ? "rgba(255,102,0,0.15)" : "rgba(255,153,0,0.15)", color: product.source === "aliexpress" ? "#ff6600" : "#ff9900" }}>
+              {/* Source badge */}
+              <div
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-3"
+                style={{
+                  background: product.source === "aliexpress" ? "rgba(255,102,0,0.15)" : "rgba(255,153,0,0.15)",
+                  color: product.source === "aliexpress" ? "#ff6600" : "#ff9900",
+                }}
+              >
                 {product.source === "aliexpress" ? "AliExpress" : "Amazon"} — Verified Seller
               </div>
 
-              <h1 className="text-2xl font-bold leading-snug mb-3" style={{ color: "var(--text-primary)" }}>{product.title}</h1>
+              <h1 className="text-2xl font-bold leading-snug mb-3" style={{ color: "var(--text-primary)" }}>
+                {product.title}
+              </h1>
 
               {/* Rating */}
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map((s) => (
+                <div className="flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map((s) => (
                     <Star key={s} size={14} fill={s <= Math.floor(product.rating) ? "#f59e0b" : "none"} color="#f59e0b" />
                   ))}
                 </div>
@@ -166,7 +142,7 @@ export default function ProductPage() {
                 <span className="text-sm" style={{ color: "var(--text-muted)" }}>({product.orders.toLocaleString()} orders)</span>
               </div>
 
-              {/* Price */}
+              {/* Price box */}
               <div className="p-4 rounded-2xl mb-5" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
                 <div className="flex items-end gap-3 mb-2">
                   <span className="text-3xl font-bold" style={{ color: "var(--accent-primary)" }}>${product.price.toFixed(2)}</span>
@@ -186,20 +162,46 @@ export default function ProductPage() {
                   <span className="w-10 text-center font-semibold" style={{ color: "var(--text-primary)" }}>{qty}</span>
                   <button onClick={() => setQty(qty + 1)} className="w-10 h-10 flex items-center justify-center text-lg font-bold transition-colors hover:bg-white/10" style={{ color: "var(--text-primary)" }}>+</button>
                 </div>
-                <button onClick={handleAdd} className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition-all" style={{ background: added ? "#10b981" : "var(--gradient-primary)" }}>
+                <button
+                  onClick={handleAdd}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition-all"
+                  style={{ background: added ? "#10b981" : "var(--gradient-primary)", boxShadow: "0 4px 20px rgba(124,111,255,0.3)" }}
+                >
                   <ShoppingCart size={18} />
                   {added ? "Added to Cart!" : `Add ${qty > 1 ? `${qty} items` : ""} to Cart`}
                 </button>
-                <button onClick={() => setWishlisted(!wishlisted)} className="w-12 h-12 rounded-xl flex items-center justify-center border transition-all" style={{ borderColor: "var(--border-color)", background: "var(--bg-card)" }}>
-                  <Heart size={18} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "var(--text-muted)"} />
-                </button>
               </div>
+
+              {/* Buy on Amazon button */}
+              {product.amazonUrl && (
+                <a
+                  href={product.amazonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold mb-4 transition-all hover:opacity-90"
+                  style={{ background: "rgba(255,153,0,0.15)", border: "1px solid rgba(255,153,0,0.4)", color: "#ff9900" }}
+                >
+                  <ShoppingBag size={18} />
+                  Buy on Amazon
+                  <ExternalLink size={14} />
+                </a>
+              )}
 
               {qty > 1 && (
                 <div className="text-sm mb-4 text-green-400 font-medium">
                   Total: ${(product.price * qty).toFixed(2)} — Profit: ${profit}
                 </div>
               )}
+
+              {/* Checkout button */}
+              <button
+                onClick={() => { handleAdd(); router.push("/checkout"); }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white mb-5 transition-all hover:opacity-90"
+                style={{ background: "linear-gradient(135deg,#10b981,#059669)" }}
+              >
+                <Zap size={18} />
+                Buy Now — Checkout Instantly
+              </button>
 
               {/* Trust badges */}
               <div className="grid grid-cols-3 gap-3 mb-5">
@@ -216,9 +218,13 @@ export default function ProductPage() {
               </div>
 
               {/* View on source */}
-              <a href={`https://www.${product.source}.com`} target="_blank" rel="noopener noreferrer"
+              <a
+                href={product.source === "aliexpress" ? product.aliexpressUrl : product.amazonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm transition-colors hover:opacity-80"
-                style={{ color: "var(--text-muted)" }}>
+                style={{ color: "var(--text-muted)" }}
+              >
                 <ExternalLink size={14} />
                 View original on {product.source === "aliexpress" ? "AliExpress" : "Amazon"}
               </a>
@@ -226,23 +232,40 @@ export default function ProductPage() {
           </div>
 
           {/* Description + Specs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-            <div className="p-6 rounded-2xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-              <h3 className="text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>Description</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{product.description}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+              <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>Description</h2>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{product.description}</p>
             </div>
-            <div className="p-6 rounded-2xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-              <h3 className="text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>Specifications</h3>
+            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+              <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>Specifications</h2>
               <div className="space-y-2">
                 {Object.entries(product.specs).map(([key, val]) => (
-                  <div key={key} className="flex justify-between text-sm py-1.5 border-b" style={{ borderColor: "var(--border-color)" }}>
+                  <div key={key} className="flex justify-between text-sm py-1.5 border-b last:border-0" style={{ borderColor: "var(--border-color)" }}>
                     <span style={{ color: "var(--text-muted)" }}>{key}</span>
-                    <span className="font-medium text-right" style={{ color: "var(--text-secondary)" }}>{val}</span>
+                    <span className="font-medium text-right max-w-[55%]" style={{ color: "var(--text-secondary)" }}>{val}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+
+          {/* Related Products */}
+          {related.length > 0 && (
+            <div className="mt-14">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Related Products</h2>
+                <Link href={`/category/${product.category.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`} className="text-sm text-violet-400 hover:underline">
+                  View all in {product.category} →
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {related.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />
