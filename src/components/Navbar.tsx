@@ -76,8 +76,11 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Link href="#" className="hidden sm:flex ml-1 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#38bdf8] text-white text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg">
-              Sign In
+            <Link href="/admin" className="hidden sm:flex ml-1 px-3 py-2 rounded-xl text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all text-xs font-medium border border-white/[0.08]">
+              Admin
+            </Link>
+            <Link href="/checkout" className="hidden sm:flex ml-1 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#38bdf8] text-white text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg">
+              Checkout
             </Link>
             <button onClick={() => setOpen(!open)} className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

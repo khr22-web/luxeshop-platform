@@ -1,15 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
-import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, Shield, Truck, Zap } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, Shield, Truck, Zap, Lock } from "lucide-react";
 
 export default function CartPage() {
   const { items, total, count, removeItem, updateQty, clearCart } = useCart();
+  const router = useRouter();
 
-  const shipping = total > 50 ? 0 : 4.99;
+  const shipping = 0; // Free shipping always
   const profit = items.reduce((s, i) => s + (i.price - i.originalPrice) * i.quantity, 0);
 
   return (
@@ -96,17 +98,12 @@ export default function CartPage() {
                     </div>
                     <div className="flex justify-between">
                       <span style={{ color: "var(--text-muted)" }}>Shipping</span>
-                      <span style={{ color: shipping === 0 ? "#10b981" : "var(--text-secondary)" }}>
-                        {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-                      </span>
+                      <span style={{ color: "#10b981" }}>FREE</span>
                     </div>
-                    {shipping > 0 && (
-                      <p className="text-xs text-green-400">Add ${(50 - total).toFixed(2)} more for free shipping</p>
-                    )}
                     <div className="border-t pt-2.5" style={{ borderColor: "var(--border-color)" }}>
                       <div className="flex justify-between font-bold text-base">
                         <span style={{ color: "var(--text-primary)" }}>Total</span>
-                        <span style={{ color: "var(--accent-primary)" }}>${(total + shipping).toFixed(2)}</span>
+                        <span style={{ color: "var(--accent-primary)" }}>${total.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -119,7 +116,12 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <button className="w-full mt-4 py-3.5 rounded-xl font-bold text-white text-sm transition-all hover:opacity-90 hover:scale-[1.02]" style={{ background: "var(--gradient-primary)" }}>
+                  <button
+                    onClick={() => router.push("/checkout")}
+                    className="w-full mt-4 py-3.5 rounded-xl font-bold text-white text-sm transition-all hover:opacity-90 hover:scale-[1.02] flex items-center justify-center gap-2"
+                    style={{ background: "var(--gradient-primary)", boxShadow: "0 4px 20px rgba(124,111,255,0.3)" }}
+                  >
+                    <Lock size={15} />
                     Proceed to Checkout
                   </button>
                   <Link href="/search" className="block text-center text-xs mt-3 hover:text-violet-400 transition-colors" style={{ color: "var(--text-muted)" }}>
