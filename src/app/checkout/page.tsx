@@ -1,63 +1,26 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
-import { ShoppingBag, CreditCard, Shield, Lock, ChevronRight, Truck, Tag } from "lucide-react";
+import {
+  Lock, ShoppingBag, Truck, Tag, Shield, CreditCard, ArrowLeft, CheckCircle, ChevronRight
+} from "lucide-react";
+
+type PaymentMethod = "stripe" | "paypal";
 
 export default function CheckoutPage() {
   const { items, total, count, clearCart } = useCart();
-  const router = useRouter();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("stripe");
 
-  const profit = items.reduce(
-    (s, i) => s + (i.price - i.originalPrice) * i.quantity,
-    0
-  );
-  const shipping = 0; // Free shipping
-  const grandTotal = total + shipping;
-
-  const handleCheckout = async () => {
-    if (!email || !email.includes("@")) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    if (items.length === 0) {
-      setError("Your cart is empty.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, customerEmail: email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || data.error) {
-        throw new Error(data.error || "Checkout failed");
-      }
-
-      // Redirect to Stripe hosted checkout
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Something went wrong";
-      setError(message);
-      setLoading(false);
-    }
-  };
+  const profit = items.reduce((s, i) => s + (i.price - i.originalPrice) * i.quantity, 0);
+  const grandTotal = total;
 
   if (items.length === 0) {
     return (
@@ -76,11 +39,85 @@ export default function CheckoutPage() {
     );
   }
 
+  const handleStripeCheckout = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({
+            id: i.id, title: i.title, price: i.price,
+            originalPrice: i.originalPrice, image: i.image,
+            source: i.source, quantity: i.quantity,
+          })),
+          customerEmail: email,
+          customerName: name,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        clearCart();
+        window.location.href = data.url;
+      } else {
+        setError(data.error || "Stripe checkout failed. Please check your Stripe keys in Vercel settings.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePayPalCheckout = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/paypal/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({
+            id: i.id, title: i.title, price: i.price,
+            originalPrice: i.originalPrice, image: i.image,
+            source: i.source, quantity: i.quantity,
+          })),
+          customerEmail: email,
+          customerName: name,
+        }),
+      });
+      const data = await res.json();
+      if (data.approvalUrl) {
+        clearCart();
+        window.location.href = data.approvalUrl;
+      } else {
+        setError(data.error || "PayPal checkout failed. Please check your PayPal keys in Vercel settings.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCheckout = () => {
+    if (!email.trim() || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (paymentMethod === "stripe") {
+      handleStripeCheckout();
+    } else {
+      handlePayPalCheckout();
+    }
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       <Navbar />
       <div className="pt-24 pb-20 max-w-5xl mx-auto px-4">
-        {/* Header */}
+        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs mb-6 mt-2" style={{ color: "var(--text-muted)" }}>
           <Link href="/" className="hover:text-violet-400">Home</Link>
           <ChevronRight size={12} />
@@ -89,9 +126,12 @@ export default function CheckoutPage() {
           <span style={{ color: "var(--text-secondary)" }}>Checkout</span>
         </div>
 
-        <h1 className="text-3xl font-bold mb-8" style={{ color: "var(--text-primary)" }}>
-          Secure Checkout
-        </h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>Secure Checkout</h1>
+          <Link href="/cart" className="flex items-center gap-2 text-sm hover:text-violet-400 transition-colors" style={{ color: "var(--text-muted)" }}>
+            <ArrowLeft size={16} /> Back to Cart
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Left: Contact + Payment */}
@@ -102,25 +142,33 @@ export default function CheckoutPage() {
                 <span className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: "var(--gradient-primary)" }}>1</span>
                 Contact Information
               </h2>
-              <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
-                  Email Address <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl outline-none transition-all text-sm"
-                  style={{
-                    background: "var(--bg-secondary)",
-                    border: "1px solid var(--border-color)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-                <p className="text-xs mt-2" style={{ color: "var(--text-muted)" }}>
-                  Your order confirmation will be sent to this email.
-                </p>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>Full Name</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="John Smith"
+                    className="w-full px-4 py-3 rounded-xl outline-none transition-all text-sm focus:ring-2 focus:ring-violet-500/30"
+                    style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+                    Email Address <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                    className="w-full px-4 py-3 rounded-xl outline-none transition-all text-sm focus:ring-2 focus:ring-violet-500/30"
+                    style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+                  />
+                  <p className="text-xs mt-2" style={{ color: "var(--text-muted)" }}>Order confirmation will be sent to this email.</p>
+                </div>
               </div>
             </div>
 
@@ -131,39 +179,82 @@ export default function CheckoutPage() {
                 Payment Method
               </h2>
 
-              {/* Stripe Card */}
-              <div className="rounded-xl p-4 mb-4" style={{ background: "var(--bg-secondary)", border: "2px solid var(--accent-primary)" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 flex items-center justify-center" style={{ borderColor: "var(--accent-primary)" }}>
-                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: "var(--accent-primary)" }} />
+              {/* Method selector */}
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                {/* Stripe */}
+                <button
+                  onClick={() => setPaymentMethod("stripe")}
+                  className="relative p-4 rounded-xl text-left transition-all"
+                  style={{
+                    background: paymentMethod === "stripe" ? "rgba(124,111,255,0.1)" : "var(--bg-secondary)",
+                    border: `2px solid ${paymentMethod === "stripe" ? "var(--accent-primary)" : "var(--border-color)"}`,
+                  }}
+                >
+                  {paymentMethod === "stripe" && (
+                    <CheckCircle size={16} className="absolute top-3 right-3 text-violet-400" />
+                  )}
+                  <div className="flex items-center gap-2 mb-2">
+                    <CreditCard size={18} style={{ color: paymentMethod === "stripe" ? "var(--accent-primary)" : "var(--text-muted)" }} />
+                    <span className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>Card</span>
                   </div>
-                  <CreditCard size={20} style={{ color: "var(--accent-primary)" }} />
-                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Credit / Debit Card</span>
-                  <div className="ml-auto flex items-center gap-1">
+                  <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>Visa, Mastercard, Amex, Apple Pay</p>
+                  <div className="flex gap-1">
                     {["VISA", "MC", "AMEX"].map((c) => (
-                      <span key={c} className="text-xs px-2 py-0.5 rounded font-bold" style={{ background: "var(--bg-card)", color: "var(--text-muted)", border: "1px solid var(--border-color)" }}>{c}</span>
+                      <span key={c} className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: "var(--bg-primary)", color: "var(--text-muted)" }}>{c}</span>
                     ))}
                   </div>
-                </div>
-                <p className="text-xs mt-3 ml-8" style={{ color: "var(--text-muted)" }}>
-                  Powered by Stripe — your card details are encrypted and never stored on our servers.
-                </p>
+                </button>
+
+                {/* PayPal */}
+                <button
+                  onClick={() => setPaymentMethod("paypal")}
+                  className="relative p-4 rounded-xl text-left transition-all"
+                  style={{
+                    background: paymentMethod === "paypal" ? "rgba(0,112,240,0.08)" : "var(--bg-secondary)",
+                    border: `2px solid ${paymentMethod === "paypal" ? "#0070f0" : "var(--border-color)"}`,
+                  }}
+                >
+                  {paymentMethod === "paypal" && (
+                    <CheckCircle size={16} className="absolute top-3 right-3" style={{ color: "#0070f0" }} />
+                  )}
+                  <div className="flex items-center gap-1 mb-2">
+                    <span className="font-black text-base leading-none" style={{ color: "#003087" }}>Pay</span>
+                    <span className="font-black text-base leading-none" style={{ color: "#009cde" }}>Pal</span>
+                  </div>
+                  <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>PayPal balance, bank, or card</p>
+                  <div className="flex gap-1">
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: "var(--bg-primary)", color: "var(--text-muted)" }}>PAYPAL</span>
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: "var(--bg-primary)", color: "var(--text-muted)" }}>VENMO</span>
+                  </div>
+                </button>
               </div>
 
-              {/* Security badges */}
-              <div className="flex items-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
-                <div className="flex items-center gap-1.5">
-                  <Lock size={12} className="text-green-400" />
-                  <span>256-bit SSL</span>
+              {/* Info box */}
+              {paymentMethod === "stripe" ? (
+                <div className="rounded-xl p-4" style={{ background: "rgba(124,111,255,0.06)", border: "1px solid rgba(124,111,255,0.2)" }}>
+                  <div className="flex items-start gap-3">
+                    <Lock size={15} className="text-violet-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                      You&apos;ll be redirected to <strong className="text-violet-400">Stripe&apos;s</strong> secure hosted checkout. Your card details are encrypted with 256-bit SSL and never stored on our servers.
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Shield size={12} className="text-green-400" />
-                  <span>Buyer Protection</span>
+              ) : (
+                <div className="rounded-xl p-4" style={{ background: "rgba(0,112,240,0.06)", border: "1px solid rgba(0,112,240,0.2)" }}>
+                  <div className="flex items-start gap-3">
+                    <Shield size={15} className="flex-shrink-0 mt-0.5" style={{ color: "#0070f0" }} />
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                      You&apos;ll be redirected to <strong style={{ color: "#009cde" }}>PayPal</strong> to complete your payment securely. Pay with your PayPal balance, bank account, or any card — protected by PayPal Buyer Protection.
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Truck size={12} className="text-blue-400" />
-                  <span>Free Shipping</span>
-                </div>
+              )}
+
+              {/* Security row */}
+              <div className="flex items-center gap-4 text-xs mt-4" style={{ color: "var(--text-muted)" }}>
+                <div className="flex items-center gap-1.5"><Lock size={12} className="text-green-400" /><span>256-bit SSL</span></div>
+                <div className="flex items-center gap-1.5"><Shield size={12} className="text-green-400" /><span>Buyer Protection</span></div>
+                <div className="flex items-center gap-1.5"><Truck size={12} className="text-blue-400" /><span>Free Shipping</span></div>
               </div>
             </div>
 
@@ -179,20 +270,28 @@ export default function CheckoutPage() {
               onClick={handleCheckout}
               disabled={loading}
               className="w-full py-4 rounded-2xl font-bold text-lg text-white flex items-center justify-center gap-3 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ background: loading ? "#555" : "var(--gradient-primary)", boxShadow: "0 4px 24px rgba(124,111,255,0.4)" }}
+              style={{
+                background: loading
+                  ? "#555"
+                  : paymentMethod === "paypal"
+                    ? "linear-gradient(135deg, #003087 0%, #009cde 100%)"
+                    : "var(--gradient-primary)",
+                boxShadow: paymentMethod === "paypal"
+                  ? "0 4px 24px rgba(0,112,240,0.4)"
+                  : "0 4px 24px rgba(124,111,255,0.4)",
+              }}
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                  Redirecting to Stripe...
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  {paymentMethod === "paypal" ? "Redirecting to PayPal..." : "Redirecting to Stripe..."}
                 </>
               ) : (
                 <>
                   <Lock size={20} />
-                  Pay ${grandTotal.toFixed(2)} Securely
+                  {paymentMethod === "paypal"
+                    ? `Pay $${grandTotal.toFixed(2)} with PayPal`
+                    : `Pay $${grandTotal.toFixed(2)} Securely`}
                 </>
               )}
             </button>
@@ -211,8 +310,6 @@ export default function CheckoutPage() {
                 <ShoppingBag size={18} style={{ color: "var(--accent-primary)" }} />
                 Order Summary ({count} item{count !== 1 ? "s" : ""})
               </h2>
-
-              {/* Items */}
               <div className="space-y-4 mb-5 max-h-64 overflow-y-auto pr-1">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-3">
@@ -232,11 +329,9 @@ export default function CheckoutPage() {
                   </div>
                 ))}
               </div>
-
               <div className="border-t pt-4 space-y-2" style={{ borderColor: "var(--border-color)" }}>
                 <div className="flex justify-between text-sm" style={{ color: "var(--text-muted)" }}>
-                  <span>Subtotal</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>Subtotal</span><span>${total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm" style={{ color: "var(--text-muted)" }}>
                   <span className="flex items-center gap-1"><Truck size={12} /> Shipping</span>
@@ -251,12 +346,10 @@ export default function CheckoutPage() {
                   <span style={{ color: "var(--accent-primary)" }}>${grandTotal.toFixed(2)}</span>
                 </div>
               </div>
-
-              {/* Trust */}
               <div className="mt-5 p-3 rounded-xl flex items-start gap-2" style={{ background: "rgba(124,111,255,0.08)", border: "1px solid rgba(124,111,255,0.2)" }}>
                 <Shield size={16} className="text-violet-400 flex-shrink-0 mt-0.5" />
                 <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-                  All payments are processed securely by <strong className="text-violet-400">Stripe</strong>. We never store your card details.
+                  Payments processed securely by <strong className="text-violet-400">Stripe</strong> or <strong style={{ color: "#009cde" }}>PayPal</strong>. We never store your card details.
                 </p>
               </div>
             </div>

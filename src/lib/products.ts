@@ -33,7 +33,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Driver Size": "10mm Dynamic", "Frequency Response": "20Hz–20kHz", "Battery Life": "8hrs + 32hrs case", "Charging": "USB-C, 1.5hr full charge", "Connectivity": "Bluetooth 5.3", "Water Resistance": "IPX5", "Weight": "5g per earbud" },
     category: "Electronics",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=tws+wireless+earbuds+anc",
-    amazonUrl: "https://www.amazon.com/s?k=tws+wireless+earbuds+anc",
+    amazonUrl: "https://www.amazon.com/s?k=tws+wireless+earbuds+anc&tag=luxeshop-20",
     tags: ["earbuds", "wireless", "anc", "bluetooth", "audio", "electronics"],
   },
   {
@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Display": "1.96\" AMOLED 466×466", "Battery": "7 days typical use", "GPS": "Built-in GPS + GLONASS", "Health": "Heart Rate, SpO2, Stress", "Water Resistance": "5ATM (50m)", "Compatibility": "iOS 12+ / Android 8+", "Strap": "22mm silicone" },
     category: "Watches",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=smart+watch+health+gps",
-    amazonUrl: "https://www.amazon.com/s?k=smart+watch+health+gps",
+    amazonUrl: "https://www.amazon.com/s?k=smart+watch+health+gps&tag=luxeshop-20",
     tags: ["watch", "smartwatch", "gps", "health", "fitness", "wearable"],
   },
   {
@@ -69,7 +69,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Video": "4K@60fps, 2.7K@120fps", "Photo": "20MP", "Stabilization": "6-axis EIS", "Waterproof": "30m without housing", "Battery": "1800mAh, 2.5hrs 4K", "Screen": "2\" touch display", "Storage": "MicroSD up to 256GB" },
     category: "Photography",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=4k+action+camera+waterproof",
-    amazonUrl: "https://www.amazon.com/s?k=4k+action+camera+waterproof",
+    amazonUrl: "https://www.amazon.com/s?k=4k+action+camera+waterproof&tag=luxeshop-20",
     tags: ["camera", "action camera", "4k", "waterproof", "photography", "gopro"],
   },
   {
@@ -87,7 +87,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Layout": "TKL (87 keys)", "Switch": "Red / Blue / Brown options", "Lighting": "Per-key RGB 16.8M colors", "Connection": "USB-C detachable", "Anti-ghosting": "Full N-Key Rollover", "Material": "Aluminum top plate", "Polling Rate": "1000Hz" },
     category: "Gaming",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=mechanical+rgb+keyboard+tkl",
-    amazonUrl: "https://www.amazon.com/s?k=mechanical+rgb+keyboard+tkl",
+    amazonUrl: "https://www.amazon.com/s?k=mechanical+rgb+keyboard+tkl&tag=luxeshop-20",
     tags: ["keyboard", "gaming", "mechanical", "rgb", "tkl", "gaming peripherals"],
   },
   {
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Output Power": "30W RMS", "Frequency": "60Hz–20kHz", "Battery": "24 hours playback", "Charging": "USB-C, 3hr full charge", "Waterproof": "IPX7", "Connectivity": "Bluetooth 5.0, AUX", "Weight": "680g" },
     category: "Audio",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=portable+bluetooth+speaker+360",
-    amazonUrl: "https://www.amazon.com/s?k=portable+bluetooth+speaker+360",
+    amazonUrl: "https://www.amazon.com/s?k=portable+bluetooth+speaker+360&tag=luxeshop-20",
     tags: ["speaker", "bluetooth", "portable", "audio", "waterproof", "music"],
   },
   {
@@ -123,7 +123,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Length": "5m (16.4ft)", "LEDs": "300 LEDs/5m", "Colors": "16M RGBIC", "Control": "App / Voice / Remote", "Power": "12V 3A adapter", "Compatibility": "Alexa, Google Home", "Lifespan": "50,000 hours" },
     category: "Home & Garden",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=smart+led+strip+lights+rgb",
-    amazonUrl: "https://www.amazon.com/s?k=smart+led+strip+lights+rgb",
+    amazonUrl: "https://www.amazon.com/s?k=smart+led+strip+lights+rgb&tag=luxeshop-20",
     tags: ["led", "lights", "smart home", "rgb", "strip lights", "home decor"],
   },
   {
@@ -140,7 +140,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Output": "15W max (Samsung), 12W (iPhone)", "Input": "USB-C 5V/3A", "Compatibility": "Qi standard, MagSafe compatible", "Size": "100mm diameter", "Thickness": "6mm", "Safety": "Over-voltage, over-current, FOD" },
     category: "Electronics",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=wireless+charging+pad+15w",
-    amazonUrl: "https://www.amazon.com/s?k=wireless+charging+pad+15w",
+    amazonUrl: "https://www.amazon.com/s?k=wireless+charging+pad+15w&tag=luxeshop-20",
     tags: ["charger", "wireless", "fast charge", "qi", "accessories", "electronics"],
   },
   {
@@ -157,7 +157,7 @@ export const PRODUCTS: Product[] = [
     specs: { "HDMI": "4K@60Hz", "USB-A": "3× USB 3.0 (5Gbps)", "Power Delivery": "100W passthrough", "Card Reader": "SD + microSD", "Material": "Aluminum alloy", "Cable Length": "15cm", "Compatibility": "MacBook, iPad Pro, Windows" },
     category: "Electronics",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=usb+c+hub+7in1+4k+hdmi",
-    amazonUrl: "https://www.amazon.com/s?k=usb+c+hub+7in1+4k+hdmi",
+    amazonUrl: "https://www.amazon.com/s?k=usb+c+hub+7in1+4k+hdmi&tag=luxeshop-20",
     tags: ["hub", "usb-c", "hdmi", "laptop", "accessories", "electronics"],
   },
   {
@@ -174,7 +174,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Material": "Aluminum alloy", "Height Levels": "6 adjustable positions", "Compatibility": "10–17 inch laptops", "Max Load": "20kg", "Weight": "350g", "Folded Size": "26×12×2cm", "Non-slip": "Silicone pads" },
     category: "Electronics",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=laptop+stand+adjustable+aluminum",
-    amazonUrl: "https://www.amazon.com/s?k=laptop+stand+adjustable+aluminum",
+    amazonUrl: "https://www.amazon.com/s?k=laptop+stand+adjustable+aluminum&tag=luxeshop-20",
     tags: ["laptop stand", "desk", "ergonomic", "office", "accessories", "work from home"],
   },
   {
@@ -191,7 +191,7 @@ export const PRODUCTS: Product[] = [
     specs: { "DPI": "200–16000 DPI (adjustable)", "Buttons": "7 programmable", "Polling Rate": "1000Hz", "RGB": "16.8M colors", "Cable": "1.8m braided", "Weight": "110g", "Compatibility": "Windows / Mac / Linux" },
     category: "Gaming",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=gaming+mouse+16000+dpi+rgb",
-    amazonUrl: "https://www.amazon.com/s?k=gaming+mouse+16000+dpi+rgb",
+    amazonUrl: "https://www.amazon.com/s?k=gaming+mouse+16000+dpi+rgb&tag=luxeshop-20",
     tags: ["mouse", "gaming", "rgb", "programmable", "gaming peripherals", "pc gaming"],
   },
   {
@@ -208,7 +208,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Driver": "40mm dynamic", "ANC": "Active Noise Cancellation", "Battery": "40hrs ANC on, 60hrs off", "Charging": "USB-C, 2hr full charge", "Connectivity": "Bluetooth 5.2 + 3.5mm", "Weight": "250g", "Foldable": "Yes, travel pouch included" },
     category: "Audio",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=noise+cancelling+headphones+40hr",
-    amazonUrl: "https://www.amazon.com/s?k=noise+cancelling+headphones+40hr",
+    amazonUrl: "https://www.amazon.com/s?k=noise+cancelling+headphones+40hr&tag=luxeshop-20",
     tags: ["headphones", "anc", "wireless", "audio", "premium", "over-ear"],
   },
   {
@@ -225,7 +225,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Resolution": "Native 1080P (1920×1080)", "Brightness": "9500 lumens", "Screen Size": "30–200 inches", "Connectivity": "HDMI, USB, WiFi, Bluetooth", "Speaker": "Built-in 5W stereo", "Lamp Life": "50,000 hours LED", "Throw Ratio": "1.2:1" },
     category: "Electronics",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=mini+projector+1080p+portable",
-    amazonUrl: "https://www.amazon.com/s?k=mini+projector+1080p+portable",
+    amazonUrl: "https://www.amazon.com/s?k=mini+projector+1080p+portable&tag=luxeshop-20",
     tags: ["projector", "home cinema", "1080p", "portable", "movies", "electronics"],
   },
   {
@@ -242,7 +242,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Material": "100% Cotton", "Fit": "Slim fit", "Sizes": "S, M, L, XL, XXL", "Care": "Machine washable", "Collar": "Button-down", "Sleeve": "Long sleeve" },
     category: "Fashion",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=mens+slim+fit+casual+shirt",
-    amazonUrl: "https://www.amazon.com/s?k=mens+slim+fit+casual+shirt",
+    amazonUrl: "https://www.amazon.com/s?k=mens+slim+fit+casual+shirt&tag=luxeshop-20",
     tags: ["shirt", "men", "fashion", "casual", "cotton", "clothing"],
   },
   {
@@ -259,7 +259,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Material": "Vegan leather (PU)", "Size": "25×18×8cm", "Strap": "Adjustable 60–120cm", "Closure": "Magnetic snap", "Pockets": "3 main + 2 zip pockets", "Colors": "Black, Brown, Beige, Red" },
     category: "Fashion",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=womens+crossbody+bag+vegan+leather",
-    amazonUrl: "https://www.amazon.com/s?k=womens+crossbody+bag+vegan+leather",
+    amazonUrl: "https://www.amazon.com/s?k=womens+crossbody+bag+vegan+leather&tag=luxeshop-20",
     tags: ["bag", "women", "fashion", "crossbody", "handbag", "accessories"],
   },
   {
@@ -276,7 +276,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Suction": "3000Pa", "Navigation": "LiDAR + SLAM", "Battery": "5200mAh, 180min runtime", "Dustbin": "400ml + auto-empty base", "Noise": "65dB", "App Control": "Yes, scheduling", "Compatibility": "Alexa, Google Home" },
     category: "Home & Garden",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=robot+vacuum+lidar+mapping",
-    amazonUrl: "https://www.amazon.com/s?k=robot+vacuum+lidar+mapping",
+    amazonUrl: "https://www.amazon.com/s?k=robot+vacuum+lidar+mapping&tag=luxeshop-20",
     tags: ["vacuum", "robot", "smart home", "cleaning", "home", "automation"],
   },
   {
@@ -293,7 +293,7 @@ export const PRODUCTS: Product[] = [
     specs: { "Recline": "90°–180°", "Armrests": "4D adjustable", "Lumbar": "Adjustable lumbar + headrest pillow", "Material": "PU leather + cold foam", "Max Load": "150kg", "Height Adjust": "Gas lift Class 4", "Base": "Metal 5-star base" },
     category: "Gaming",
     aliexpressUrl: "https://www.aliexpress.com/wholesale?SearchText=gaming+chair+ergonomic+lumbar",
-    amazonUrl: "https://www.amazon.com/s?k=gaming+chair+ergonomic+lumbar",
+    amazonUrl: "https://www.amazon.com/s?k=gaming+chair+ergonomic+lumbar&tag=luxeshop-20",
     tags: ["chair", "gaming", "ergonomic", "office", "furniture", "desk"],
   },
 ];
