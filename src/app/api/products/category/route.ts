@@ -390,7 +390,7 @@ function generateProduct(category: string, index: number) {
     badge,
     category,
     aliexpressUrl: `https://www.aliexpress.com/wholesale?SearchText=${searchQuery}`,
-    amazonUrl: `https://www.amazon.com/s?k=${searchQuery}&tag=${AFFILIATE_TAG}`,
+    amazonUrl: `https://www.amazon.co.uk/s?k=${searchQuery}&tag=${AFFILIATE_TAG}`,
   };
 }
 

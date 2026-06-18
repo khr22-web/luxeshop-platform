@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 const AMAZON_AFFILIATE_TAG = process.env.AMAZON_AFFILIATE_TAG || "luxeshoplondo-21";
 
 function amazonUrl(query: string): string {
-  return `https://www.amazon.com/s?k=${encodeURIComponent(query)}&tag=${AMAZON_AFFILIATE_TAG}`;
+  return `https://www.amazon.co.uk/s?k=${encodeURIComponent(query)}&tag=${AMAZON_AFFILIATE_TAG}`;
 }
 
 // ─── Expanded Product Catalog (simulates live API data) ─────────────────────
