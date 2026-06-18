@@ -8,6 +8,7 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
     { label: "Fashion", href: "/category/fashion" },
     { label: "Gaming", href: "/category/gaming" },
     { label: "Watches", href: "/category/watches" },
+    { label: "Bags & Handbags", href: "/category/bags" },
   ],
   Support: [
     { label: "About Us", href: "/about" },

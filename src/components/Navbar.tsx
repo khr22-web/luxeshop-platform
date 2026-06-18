@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/search", label: "All Products" },
   { href: "/category/electronics", label: "Electronics" },
   { href: "/category/fashion", label: "Fashion" },
+  { href: "/category/bags", label: "Bags" },
   { href: "/category/gaming", label: "Gaming" },
   { href: "/search?q=deals", label: "Deals" },
 ];

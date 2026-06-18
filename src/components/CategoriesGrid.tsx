@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Smartphone, Laptop, Shirt, Home, Dumbbell, Gamepad2, Baby, Car, Watch, Headphones, Camera, Gem, ChevronRight } from "lucide-react";
+import { Smartphone, Laptop, Shirt, Home, Dumbbell, Gamepad2, Baby, Car, Watch, Headphones, Camera, Gem, ShoppingBag, ChevronRight } from "lucide-react";
 
 const cats = [
   { icon: Smartphone, label: "Electronics",   count: "2.4M+", from: "#6366f1", to: "#8b5cf6", slug: "electronics" },
@@ -15,6 +15,7 @@ const cats = [
   { icon: Headphones, label: "Audio",         count: "380K+", from: "#38bdf8", to: "#818cf8", slug: "audio" },
   { icon: Camera,     label: "Photography",   count: "290K+", from: "#fb923c", to: "#f59e0b", slug: "photography" },
   { icon: Gem,        label: "Jewelry",       count: "670K+", from: "#e879f9", to: "#a78bfa", slug: "jewelry" },
+  { icon: ShoppingBag, label: "Bags & Handbags", count: "1.2M+", from: "#f472b6", to: "#ec4899", slug: "bags" },
 ];
 
 export default function CategoriesGrid() {

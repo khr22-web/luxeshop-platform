@@ -20,6 +20,7 @@ const CATEGORY_DATA: Record<string, { name: string; description: string; emoji: 
   "audio": { name: "Audio", description: "Headphones, speakers, and more", emoji: "🎧", color: "#818cf8" },
   "photography": { name: "Photography", description: "Cameras, lenses, and accessories", emoji: "📷", color: "#f97316" },
   "jewelry": { name: "Jewelry", description: "Rings, necklaces, and bracelets", emoji: "💎", color: "#c084fc" },
+  "bags": { name: "Bags & Handbags", description: "Totes, crossbody bags, backpacks and more", emoji: "👜", color: "#f472b6" },
 };
 
 interface Product {
