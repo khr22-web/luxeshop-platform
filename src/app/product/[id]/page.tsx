@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Star, ShoppingCart, Heart, Shield, Truck, RefreshCw, Zap, ExternalLink, ChevronRight, ShoppingBag } from "lucide-react";
@@ -13,16 +13,113 @@ import ProductCard from "@/components/ProductCard";
 import ProductReviews from "@/components/ProductReviews";
 import WishlistButton from "@/components/WishlistButton";
 
+// Unified product type for display
+type DisplayProduct = {
+  id: string;
+  title: string;
+  price: number;
+  originalPrice: number;
+  image: string;
+  images: string[];
+  rating: number;
+  orders: number;
+  source: string;
+  badge?: string;
+  category: string;
+  description: string;
+  specs: Record<string, string>;
+  amazonUrl?: string | null;
+  aliexpressUrl?: string | null;
+  tags?: string[];
+};
+
+function toDisplayProduct(p: Record<string, unknown>): DisplayProduct {
+  const image = (p.image as string) || (p.images as string[])?.[0] || "";
+  return {
+    id: p.id as string,
+    title: p.title as string,
+    price: p.price as number,
+    originalPrice: (p.originalPrice as number) || (p.price as number),
+    image,
+    images: (p.images as string[]) || [image],
+    rating: p.rating as number,
+    orders: p.orders as number,
+    source: (p.source as string) || "aliexpress",
+    badge: p.badge as string | undefined,
+    category: (p.category as string) || "electronics",
+    description: (p.description as string) || "",
+    specs: (p.specs as Record<string, string>) || {},
+    amazonUrl: p.amazonUrl as string | null | undefined,
+    aliexpressUrl: p.aliexpressUrl as string | null | undefined,
+    tags: (p.tags as string[]) || [],
+  };
+}
+
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { addItem } = useCart();
-  // Look up in static PRODUCTS_MAP first, then fall back to CATALOG_MAP (trending API products)
-  const product = PRODUCTS_MAP[id] || CATALOG_MAP[id] || null;
+
+  const [product, setProduct] = useState<DisplayProduct | null>(() => {
+    // Try local lookup first (instant)
+    const local = PRODUCTS_MAP[id] || CATALOG_MAP[id];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return local ? toDisplayProduct(local as any) : null;
+  });
+  const [loading, setLoading] = useState(!product);
   const [selectedImage, setSelectedImage] = useState(0);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+
+  useEffect(() => {
+    if (product) return; // Already found locally
+    // Fetch from API for category-generated products
+    fetch(`/api/products/get?id=${encodeURIComponent(id)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.product) {
+          setProduct(toDisplayProduct(data.product as Record<string, unknown>));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [id, product]);
+
+  const handleAdd = () => {
+    if (!product) return;
+    for (let i = 0; i < qty; i++) {
+      addItem({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        image: product.image,
+        source: product.source as "aliexpress" | "amazon",
+      });
+    }
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  // Related products from both static and catalog
+  const allProducts = [...PRODUCTS, ...CATALOG_PRODUCTS];
+  const related = product
+    ? allProducts.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
+    : [];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-primary)" }}>
+        <Navbar />
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 mt-20">
+          <div className="w-12 h-12 rounded-full border-4 border-violet-500 border-t-transparent animate-spin mb-4" />
+          <p style={{ color: "var(--text-muted)" }}>Loading product...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -31,7 +128,7 @@ export default function ProductPage() {
         <div className="flex-1 flex flex-col items-center justify-center text-center px-4 mt-20">
           <div className="text-6xl mb-4">😕</div>
           <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Product not found</h2>
-          <p className="mb-6" style={{ color: "var(--text-muted)" }}>This product doesn't exist or has been removed.</p>
+          <p className="mb-6" style={{ color: "var(--text-muted)" }}>This product doesn&apos;t exist or has been removed.</p>
           <Link href="/search" className="px-6 py-3 rounded-xl font-semibold text-white" style={{ background: "var(--gradient-primary)" }}>
             Browse All Products
           </Link>
@@ -40,25 +137,6 @@ export default function ProductPage() {
       </div>
     );
   }
-
-  const handleAdd = () => {
-    for (let i = 0; i < qty; i++) {
-      addItem({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        originalPrice: product.originalPrice,
-        image: product.image,
-        source: product.source,
-      });
-    }
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
-  // Related products (same category, excluding current) — from both static and catalog
-  const allProducts = [...PRODUCTS, ...CATALOG_PRODUCTS];
-  const related = allProducts.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
@@ -69,7 +147,7 @@ export default function ProductPage() {
           <div className="flex items-center gap-2 text-xs mb-6 mt-4 flex-wrap" style={{ color: "var(--text-muted)" }}>
             <Link href="/" className="hover:text-violet-400 transition-colors">Home</Link>
             <ChevronRight size={12} />
-            <Link href={`/category/${product.category.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`} className="hover:text-violet-400 transition-colors">{product.category}</Link>
+            <Link href={`/category/${product.category.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`} className="hover:text-violet-400 transition-colors capitalize">{product.category}</Link>
             <ChevronRight size={12} />
             <span className="truncate max-w-[200px]" style={{ color: "var(--text-secondary)" }}>{product.title}</span>
           </div>
@@ -79,7 +157,7 @@ export default function ProductPage() {
             <div>
               <div className="relative aspect-square rounded-2xl overflow-hidden mb-3" style={{ background: "var(--bg-card)" }}>
                 <Image
-                  src={product.images[selectedImage]}
+                  src={product.images[selectedImage] || product.image}
                   alt={product.title}
                   fill
                   className="object-cover transition-all duration-300"
@@ -99,7 +177,6 @@ export default function ProductPage() {
                   <Heart size={18} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "white"} />
                 </button>
               </div>
-              {/* Thumbnail strip */}
               {product.images.length > 1 && (
                 <div className="flex gap-2">
                   {product.images.map((img, i) => (
@@ -189,6 +266,19 @@ export default function ProductPage() {
                   <ExternalLink size={14} />
                 </a>
               )}
+              {product.aliexpressUrl && !product.amazonUrl && (
+                <a
+                  href={product.aliexpressUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold mb-4 transition-all hover:opacity-90"
+                  style={{ background: "rgba(255,102,0,0.15)", border: "1px solid rgba(255,102,0,0.4)", color: "#ff6600" }}
+                >
+                  <ShoppingBag size={18} />
+                  Buy on AliExpress
+                  <ExternalLink size={14} />
+                </a>
+              )}
 
               {qty > 1 && (
                 <div className="text-sm mb-4 text-green-400 font-medium">
@@ -227,7 +317,7 @@ export default function ProductPage() {
 
               {/* View on source */}
               <a
-                href={product.source === "aliexpress" ? product.aliexpressUrl : product.amazonUrl}
+                href={(product.source === "aliexpress" ? product.aliexpressUrl : product.amazonUrl) || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm transition-colors hover:opacity-80"
@@ -245,17 +335,19 @@ export default function ProductPage() {
               <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>Description</h2>
               <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{product.description}</p>
             </div>
-            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-              <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>Specifications</h2>
-              <div className="space-y-2">
-                {Object.entries(product.specs).map(([key, val]) => (
-                  <div key={key} className="flex justify-between text-sm py-1.5 border-b last:border-0" style={{ borderColor: "var(--border-color)" }}>
-                    <span style={{ color: "var(--text-muted)" }}>{key}</span>
-                    <span className="font-medium text-right max-w-[55%]" style={{ color: "var(--text-secondary)" }}>{val}</span>
-                  </div>
-                ))}
+            {Object.keys(product.specs).length > 0 && (
+              <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+                <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>Specifications</h2>
+                <div className="space-y-2">
+                  {Object.entries(product.specs).map(([key, val]) => (
+                    <div key={key} className="flex justify-between text-sm py-1.5 border-b last:border-0" style={{ borderColor: "var(--border-color)" }}>
+                      <span style={{ color: "var(--text-muted)" }}>{key}</span>
+                      <span className="font-medium text-right max-w-[55%]" style={{ color: "var(--text-secondary)" }}>{val}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Product Reviews */}
