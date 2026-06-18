@@ -37,12 +37,12 @@ interface Stats {
   allOrders: Order[];
 }
 
-// Demo data for when no real orders exist
+// Empty state for when no real orders exist
 const DEMO_STATS: Stats = {
-  totalRevenue: 4827.50,
-  totalProfit: 804.58,
-  totalOrders: 47,
-  avgOrderValue: 102.71,
+  totalRevenue: 0,
+  totalProfit: 0,
+  totalOrders: 0,
+  avgOrderValue: 0,
   revenueByDay: (() => {
     const days: Record<string, number> = {};
     const now = new Date();
@@ -50,24 +50,12 @@ const DEMO_STATS: Stats = {
       const d = new Date(now);
       d.setDate(d.getDate() - i);
       const key = d.toISOString().slice(0, 10);
-      days[key] = Math.random() > 0.3 ? Math.round(Math.random() * 400 + 50) : 0;
+      days[key] = 0;
     }
     return days;
   })(),
-  topProducts: [
-    { id: "1", title: "TWS Wireless Earbuds Pro", qty: 18, revenue: 539.82, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=80&q=60" },
-    { id: "4", title: "Mechanical RGB Gaming Keyboard", qty: 12, revenue: 748.80, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=80&q=60" },
-    { id: "2", title: "Smart Watch Series X5", qty: 9, revenue: 491.40, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=80&q=60" },
-    { id: "5", title: "Portable Bluetooth Speaker", qty: 14, revenue: 503.86, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=80&q=60" },
-    { id: "3", title: "4K Action Camera Ultra", qty: 7, revenue: 327.53, image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=80&q=60" },
-  ],
-  recentOrders: [
-    { id: "ORD-001", sessionId: "cs_demo_1", customerEmail: "alice@example.com", customerName: "Alice Johnson", items: [{ id: "1", title: "TWS Wireless Earbuds Pro", price: 29.99, quantity: 2, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=80", source: "aliexpress" }], subtotal: 59.98, profit: 10.00, status: "paid", createdAt: new Date(Date.now() - 3600000).toISOString(), currency: "USD", paymentMethod: "stripe" },
-    { id: "ORD-002", sessionId: "cs_demo_2", customerEmail: "bob@example.com", customerName: "Bob Smith", items: [{ id: "4", title: "Mechanical RGB Gaming Keyboard", price: 62.40, quantity: 1, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=80", source: "aliexpress" }], subtotal: 62.40, profit: 10.40, status: "fulfilled", createdAt: new Date(Date.now() - 7200000).toISOString(), currency: "USD", paymentMethod: "stripe" },
-    { id: "ORD-003", sessionId: "cs_demo_3", customerEmail: "carol@example.com", customerName: "Carol White", items: [{ id: "2", title: "Smart Watch Series X5", price: 54.60, quantity: 1, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=80", source: "aliexpress" }], subtotal: 54.60, profit: 9.10, status: "pending", createdAt: new Date(Date.now() - 10800000).toISOString(), currency: "USD", paymentMethod: "stripe" },
-    { id: "ORD-004", sessionId: "cs_demo_4", customerEmail: "dave@example.com", customerName: "Dave Brown", items: [{ id: "5", title: "Portable Bluetooth Speaker", price: 35.99, quantity: 3, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=80", source: "aliexpress" }], subtotal: 107.97, profit: 18.00, status: "paid", createdAt: new Date(Date.now() - 86400000).toISOString(), currency: "USD", paymentMethod: "stripe" },
-    { id: "ORD-005", sessionId: "cs_demo_5", customerEmail: "eve@example.com", customerName: "Eve Davis", items: [{ id: "3", title: "4K Action Camera Ultra", price: 46.79, quantity: 1, image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=80", source: "aliexpress" }], subtotal: 46.79, profit: 7.80, status: "refunded", createdAt: new Date(Date.now() - 172800000).toISOString(), currency: "USD", paymentMethod: "stripe" },
-  ],
+  topProducts: [],
+  recentOrders: [],
   allOrders: [],
 };
 
