@@ -86,20 +86,28 @@ export default function ProductPage() {
       .finally(() => setLoading(false));
   }, [id, product]);
 
+  const affiliateUrl = product?.amazonUrl || product?.aliexpressUrl || null;
+
   const handleAdd = () => {
     if (!product) return;
-    for (let i = 0; i < qty; i++) {
-      addItem({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        originalPrice: product.originalPrice,
-        image: product.image,
-        source: product.source as "aliexpress" | "amazon",
-      });
+    if (affiliateUrl) {
+      // Affiliate model: redirect directly to Amazon/AliExpress
+      window.open(affiliateUrl, "_blank", "noopener,noreferrer");
+    } else {
+      // Fallback: add to local cart
+      for (let i = 0; i < qty; i++) {
+        addItem({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          originalPrice: product.originalPrice,
+          image: product.image,
+          source: product.source as "aliexpress" | "amazon",
+        });
+      }
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
     }
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
   };
 
   // Related products from both static and catalog
@@ -245,10 +253,10 @@ export default function ProductPage() {
                 <button
                   onClick={handleAdd}
                   className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition-all"
-                  style={{ background: added ? "#10b981" : "var(--gradient-primary)", boxShadow: "0 4px 20px rgba(124,111,255,0.3)" }}
+                  style={{ background: "var(--gradient-primary)", boxShadow: "0 4px 20px rgba(124,111,255,0.3)" }}
                 >
                   <ShoppingCart size={18} />
-                  {added ? "Added to Cart!" : `Add ${qty > 1 ? `${qty} items` : ""} to Cart`}
+                  {affiliateUrl ? "Shop Now" : (added ? "Added to Cart!" : `Add ${qty > 1 ? `${qty} items` : ""} to Cart`)}
                 </button>
               </div>
 
@@ -291,15 +299,17 @@ export default function ProductPage() {
                 <WishlistButton productId={id} />
               </div>
 
-              {/* Checkout button */}
-              <button
-                onClick={() => { handleAdd(); router.push("/checkout"); }}
+              {/* Buy Now button */}
+              <a
+                href={affiliateUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white mb-5 transition-all hover:opacity-90"
                 style={{ background: "linear-gradient(135deg,#10b981,#059669)" }}
               >
                 <Zap size={18} />
-                Buy Now — Checkout Instantly
-              </button>
+                Buy Now — Best Price
+              </a>
 
               {/* Trust badges */}
               <div className="grid grid-cols-3 gap-3 mb-5">
