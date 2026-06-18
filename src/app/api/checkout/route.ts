@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map(
       (item: { title: string; price: number; image: string; quantity: number }) => ({
         price_data: {
-          currency: "usd",
+          currency: "gbp",
           product_data: {
             name: item.title,
             images: item.image ? [item.image] : [],
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       profit,
       status: "pending",
       createdAt: new Date().toISOString(),
-      currency: "USD",
+      currency: "GBP",
       paymentMethod: "stripe",
     };
     saveOrder(order);
