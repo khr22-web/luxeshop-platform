@@ -9,6 +9,8 @@ import { Star, ShoppingCart, Heart, Shield, Truck, RefreshCw, Zap, ExternalLink,
 import { useCart } from "@/context/CartContext";
 import { PRODUCTS_MAP, PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/ProductCard";
+import ProductReviews from "@/components/ProductReviews";
+import WishlistButton from "@/components/WishlistButton";
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -193,6 +195,11 @@ export default function ProductPage() {
                 </div>
               )}
 
+              {/* Wishlist Button */}
+              <div className="mb-4">
+                <WishlistButton productId={id} />
+              </div>
+
               {/* Checkout button */}
               <button
                 onClick={() => { handleAdd(); router.push("/checkout"); }}
@@ -249,6 +256,9 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
+
+          {/* Product Reviews */}
+          <ProductReviews productId={id} />
 
           {/* Related Products */}
           {related.length > 0 && (

@@ -18,9 +18,41 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("stripe");
+  const [couponCode, setCouponCode] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponMsg, setCouponMsg] = useState("");
+  const [couponValid, setCouponValid] = useState(false);
+  const [couponLoading, setCouponLoading] = useState(false);
 
   const profit = items.reduce((s, i) => s + (i.price - i.originalPrice) * i.quantity, 0);
-  const grandTotal = total;
+  const grandTotal = Math.max(0, total - couponDiscount);
+
+  async function applyCoupon() {
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    setCouponMsg("");
+    try {
+      const res = await fetch("/api/coupon/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode.trim(), orderTotal: total }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setCouponDiscount(data.discount);
+        setCouponValid(true);
+        setCouponMsg(`Coupon applied! You save £${data.discount.toFixed(2)}`);
+      } else {
+        setCouponDiscount(0);
+        setCouponValid(false);
+        setCouponMsg(data.message || "Invalid coupon");
+      }
+    } catch {
+      setCouponMsg("Error validating coupon");
+    } finally {
+      setCouponLoading(false);
+    }
+  }
 
   if (items.length === 0) {
     return (
@@ -329,21 +361,48 @@ export default function CheckoutPage() {
                   </div>
                 ))}
               </div>
+              {/* Coupon Code */}
+              <div className="mb-4">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="Coupon code"
+                    className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
+                    style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+                    onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
+                  />
+                  <button
+                    onClick={applyCoupon}
+                    disabled={couponLoading}
+                    className="px-3 py-2 rounded-lg text-sm font-bold text-white transition"
+                    style={{ background: "var(--gradient-primary)" }}
+                  >
+                    {couponLoading ? "..." : "Apply"}
+                  </button>
+                </div>
+                {couponMsg && (
+                  <p className={`text-xs mt-1.5 ${couponValid ? "text-green-400" : "text-red-400"}`}>{couponMsg}</p>
+                )}
+              </div>
               <div className="border-t pt-4 space-y-2" style={{ borderColor: "var(--border-color)" }}>
                 <div className="flex justify-between text-sm" style={{ color: "var(--text-muted)" }}>
-                  <span>Subtotal</span><span>${total.toFixed(2)}</span>
+                  <span>Subtotal</span><span>£{total.toFixed(2)}</span>
                 </div>
+                {couponDiscount > 0 && (
+                  <div className="flex justify-between text-sm text-green-400">
+                    <span className="flex items-center gap-1"><Tag size={12} /> Coupon Discount</span>
+                    <span>-£{couponDiscount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm" style={{ color: "var(--text-muted)" }}>
                   <span className="flex items-center gap-1"><Truck size={12} /> Shipping</span>
                   <span className="text-green-400 font-medium">FREE</span>
                 </div>
-                <div className="flex justify-between text-sm text-green-400">
-                  <span className="flex items-center gap-1"><Tag size={12} /> Your Markup Profit</span>
-                  <span>+${profit.toFixed(2)}</span>
-                </div>
                 <div className="border-t pt-3 mt-3 flex justify-between font-bold text-lg" style={{ borderColor: "var(--border-color)", color: "var(--text-primary)" }}>
                   <span>Total</span>
-                  <span style={{ color: "var(--accent-primary)" }}>${grandTotal.toFixed(2)}</span>
+                  <span style={{ color: "var(--accent-primary)" }}>£{grandTotal.toFixed(2)}</span>
                 </div>
               </div>
               <div className="mt-5 p-3 rounded-xl flex items-start gap-2" style={{ background: "rgba(124,111,255,0.08)", border: "1px solid rgba(124,111,255,0.2)" }}>

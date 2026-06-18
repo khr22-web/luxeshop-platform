@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ShoppingCart, Heart, Menu, X, Search, Zap } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import NavbarAuth from "@/components/NavbarAuth";
 
 const navLinks = [
   { href: "/search", label: "All Products" },
@@ -64,9 +65,9 @@ export default function Navbar() {
               <Search className="w-[18px] h-[18px]" />
             </button>
             {/* Wishlist */}
-            <button className="hidden sm:flex w-9 h-9 rounded-xl items-center justify-center text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
+            <Link href="/wishlist" className="hidden sm:flex w-9 h-9 rounded-xl items-center justify-center text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
               <Heart className="w-[18px] h-[18px]" />
-            </button>
+            </Link>
             {/* Cart */}
             <Link href="/cart" className="relative w-9 h-9 rounded-xl flex items-center justify-center text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
               <ShoppingCart className="w-[18px] h-[18px]" />
@@ -76,9 +77,9 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Link href="/admin" className="hidden sm:flex ml-1 px-3 py-2 rounded-xl text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all text-xs font-medium border border-white/[0.08]">
-              Admin
-            </Link>
+            <div className="hidden sm:flex ml-1">
+              <NavbarAuth />
+            </div>
             <Link href="/checkout" className="hidden sm:flex ml-1 px-4 py-2 rounded-xl bg-gradient-to-r from-[#7c6fff] to-[#38bdf8] text-white text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg">
               Checkout
             </Link>

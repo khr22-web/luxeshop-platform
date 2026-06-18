@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { updateOrderStatus, saveOrder, Order } from "@/lib/orders";
+import { sendOrderConfirmation } from "@/lib/email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
   apiVersion: "2026-05-27.dahlia",
@@ -58,10 +59,24 @@ export async function POST(req: NextRequest) {
           status: "paid",
           createdAt: new Date().toISOString(),
           paidAt: new Date().toISOString(),
-          currency: "USD",
+          currency: "GBP",
           paymentMethod: "stripe",
         };
         saveOrder(order);
+        // Send email confirmation
+        try {
+          await sendOrderConfirmation({
+            id: order.id,
+            customerEmail: order.customerEmail,
+            customerName: order.customerName,
+            items: order.items,
+            subtotal: order.subtotal,
+            currency: order.currency,
+            paymentMethod: order.paymentMethod,
+          });
+        } catch (emailErr) {
+          console.error("Email send failed:", emailErr);
+        }
       } catch (e) {
         console.error("Failed to parse order from metadata:", e);
       }
