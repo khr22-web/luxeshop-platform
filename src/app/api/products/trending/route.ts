@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // ─── Amazon Affiliate Tag ───────────────────────────────────────────────────
-// Replace "luxeshop-20" with your actual Amazon Associates tag
-const AMAZON_AFFILIATE_TAG = process.env.AMAZON_AFFILIATE_TAG || "luxeshop-20";
+// Replace "luxeshoplondo-21" with your actual Amazon Associates tag
+const AMAZON_AFFILIATE_TAG = process.env.AMAZON_AFFILIATE_TAG || "luxeshoplondo-21";
 
 function amazonUrl(query: string): string {
   return `https://www.amazon.com/s?k=${encodeURIComponent(query)}&tag=${AMAZON_AFFILIATE_TAG}`;

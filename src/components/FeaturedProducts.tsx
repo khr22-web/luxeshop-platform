@@ -34,7 +34,7 @@ const FALLBACK: TrendingProduct[] = PRODUCTS.slice(0, 6).map((p) => ({
   badge: p.badge,
   source: p.source,
   category: p.category,
-  amazonUrl: p.amazonUrl || `https://www.amazon.com/s?k=${encodeURIComponent(p.title)}&tag=luxeshop-20`,
+  amazonUrl: p.amazonUrl || `https://www.amazon.com/s?k=${encodeURIComponent(p.title)}&tag=luxeshoplondo-21`,
   aliexpressUrl: p.aliexpressUrl || null,
   tags: p.tags,
 }));
