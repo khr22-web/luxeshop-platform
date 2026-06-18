@@ -39,9 +39,6 @@ export default function ProductPage() {
     );
   }
 
-  const discount = Math.round(((product.price - product.originalPrice) / product.originalPrice) * 100);
-  const profit = ((product.price - product.originalPrice) * qty).toFixed(2);
-
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) {
       addItem({
@@ -147,13 +144,14 @@ export default function ProductPage() {
               {/* Price box */}
               <div className="p-4 rounded-2xl mb-5" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
                 <div className="flex items-end gap-3 mb-2">
-                  <span className="text-3xl font-bold" style={{ color: "var(--accent-primary)" }}>${product.price.toFixed(2)}</span>
-                  <span className="text-lg line-through mb-0.5" style={{ color: "var(--text-muted)" }}>${product.originalPrice.toFixed(2)}</span>
-                  <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-red-500">+{discount}% markup</span>
+                  <span className="text-3xl font-bold" style={{ color: "var(--accent-primary)" }}>£{product.price.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs" style={{ color: "var(--text-muted)" }}>
-                  <Zap size={12} className="text-green-400" />
-                  <span>Your profit per unit: <span className="text-green-400 font-semibold">${(product.price - product.originalPrice).toFixed(2)}</span></span>
+                  <Truck size={12} className="text-green-400" />
+                  <span className="text-green-400 font-semibold">Free UK Delivery</span>
+                  <span className="mx-1">·</span>
+                  <Shield size={12} className="text-blue-400" />
+                  <span className="text-blue-400">Buyer Protection</span>
                 </div>
               </div>
 
@@ -191,7 +189,7 @@ export default function ProductPage() {
 
               {qty > 1 && (
                 <div className="text-sm mb-4 text-green-400 font-medium">
-                  Total: ${(product.price * qty).toFixed(2)} — Profit: ${profit}
+                  Total: £{(product.price * qty).toFixed(2)}
                 </div>
               )}
 

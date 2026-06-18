@@ -22,8 +22,6 @@ export default function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
-  const discount = Math.round(((product.price - product.originalPrice) / product.originalPrice) * 100);
-
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     addItem({
@@ -55,10 +53,6 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.badge}
           </div>
         )}
-        {/* Discount */}
-        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-bold text-white bg-red-500">
-          +{discount}%
-        </div>
         {/* Wishlist */}
         <button
           onClick={(e) => { e.preventDefault(); setWishlisted(!wishlisted); }}
@@ -67,14 +61,7 @@ export default function ProductCard({ product }: { product: Product }) {
         >
           <Heart size={14} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "white"} />
         </button>
-        {/* Source badge */}
-        <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full text-xs font-semibold"
-          style={{
-            background: product.source === "aliexpress" ? "rgba(255,102,0,0.9)" : "rgba(255,153,0,0.9)",
-            color: "white"
-          }}>
-          {product.source === "aliexpress" ? "AliExpress" : "Amazon"}
-        </div>
+
       </div>
 
       {/* Info */}
@@ -93,13 +80,8 @@ export default function ProductCard({ product }: { product: Product }) {
 
         {/* Price */}
         <div className="flex items-center justify-between">
-          <div>
-            <div className="font-bold text-base" style={{ color: "var(--accent-primary)" }}>
-              ${product.price.toFixed(2)}
-            </div>
-            <div className="text-xs line-through" style={{ color: "var(--text-muted)" }}>
-              ${product.originalPrice.toFixed(2)}
-            </div>
+          <div className="font-bold text-base" style={{ color: "var(--accent-primary)" }}>
+            £{product.price.toFixed(2)}
           </div>
           <button
             onClick={handleAdd}

@@ -44,7 +44,7 @@ function Card({ p }: { p: TrendingProduct }) {
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const { addItem } = useCart();
-  const profit = (p.price - p.originalPrice).toFixed(2);
+
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -128,16 +128,11 @@ function Card({ p }: { p: TrendingProduct }) {
 
         <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-3 mb-4">
           <div className="flex items-baseline gap-2 mb-1.5">
-            <span className="text-xl font-bold text-white">${p.price.toFixed(2)}</span>
-            <span className="text-xs text-[#44445a] line-through">${p.originalPrice.toFixed(2)}</span>
+            <span className="text-xl font-bold text-white">£{p.price.toFixed(2)}</span>
           </div>
-          <div className="flex items-center justify-between text-[10px]">
-            <span className="text-[#44445a]">
-              {sourceLabel}: <span className="text-[#8888aa]">${p.originalPrice.toFixed(2)}</span>
-            </span>
-            <span className="text-emerald-400 font-semibold flex items-center gap-0.5">
-              <TrendingUp className="w-3 h-3" />+${profit}
-            </span>
+          <div className="flex items-center gap-1.5 text-[10px] text-emerald-400">
+            <TrendingUp className="w-3 h-3" />
+            <span>Free UK Delivery</span>
           </div>
         </div>
 
@@ -203,8 +198,7 @@ export default function FeaturedProducts() {
               Today&apos;s <span className="text-gradient">Top Picks</span>
             </h2>
             <p className="text-[#8888aa] mt-2 text-sm">
-              Trending products from AliExpress &amp; Amazon — prices include{" "}
-              <span className="text-[#a78bfa] font-semibold">20% LuxeShop markup</span>.
+              Trending products from AliExpress &amp; Amazon — curated for the best value.
             </p>
           </div>
           <div className="flex items-center gap-3 self-start sm:self-auto">
@@ -233,9 +227,7 @@ export default function FeaturedProducts() {
 
         <div className="mt-8 p-4 rounded-xl border border-white/[0.05] bg-white/[0.02]">
           <p className="text-[#44445a] text-xs text-center">
-            <span className="text-[#a78bfa] font-semibold">Pricing Policy:</span> All prices include a{" "}
-            <span className="text-white font-semibold">20% LuxeShop markup</span>. Formula:{" "}
-            <span className="text-[#7c6fff] font-mono">Our Price = Source Price × 1.20</span>
+            <span className="text-[#a78bfa] font-semibold">Buyer Protection:</span> All orders are covered by our money-back guarantee. Free UK delivery on every order.
           </p>
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function AboutPage() {
             {[
               { value: "50,000+", label: "Products Listed" },
               { value: "2", label: "Trusted Sources" },
-              { value: "20%", label: "Avg. Profit Margin" },
+              { value: "4.9★", label: "Customer Rating" },
               { value: "100%", label: "Secure Checkout" },
             ].map(({ value, label }) => (
               <div key={label} className="rounded-2xl p-6 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
@@ -48,7 +48,7 @@ export default function AboutPage() {
               We believe shopping should be simple, transparent, and enjoyable. LuxeShop was built to eliminate the frustration of jumping between multiple platforms to find the best product at the best price.
             </p>
             <p className="text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              By aggregating products from AliExpress and Amazon, we give you a single destination to discover trending items, compare options, and purchase with confidence — all with a 20% markup that funds our platform and ensures you always get genuine buyer protection.
+              By aggregating products from AliExpress and Amazon, we give you a single destination to discover trending items, compare options, and purchase with confidence — all backed by our genuine buyer protection guarantee and free UK delivery on every order.
             </p>
           </div>
         </div>

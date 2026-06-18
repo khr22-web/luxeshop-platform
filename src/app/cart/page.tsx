@@ -12,8 +12,6 @@ export default function CartPage() {
   const router = useRouter();
 
   const shipping = 0; // Free shipping always
-  const profit = items.reduce((s, i) => s + (i.price - i.originalPrice) * i.quantity, 0);
-
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       <Navbar />
@@ -74,8 +72,8 @@ export default function CartPage() {
                           </button>
                         </div>
                         <div className="text-right">
-                          <div className="font-bold" style={{ color: "var(--accent-primary)" }}>${(item.price * item.quantity).toFixed(2)}</div>
-                          <div className="text-xs" style={{ color: "var(--text-muted)" }}>${item.price.toFixed(2)} each</div>
+                          <div className="font-bold" style={{ color: "var(--accent-primary)" }}>£{(item.price * item.quantity).toFixed(2)}</div>
+                          <div className="text-xs" style={{ color: "var(--text-muted)" }}>£{item.price.toFixed(2)} each</div>
                         </div>
                       </div>
                     </div>
@@ -94,7 +92,7 @@ export default function CartPage() {
                   <div className="space-y-2.5 text-sm">
                     <div className="flex justify-between">
                       <span style={{ color: "var(--text-muted)" }}>Subtotal ({count} items)</span>
-                      <span style={{ color: "var(--text-secondary)" }}>${total.toFixed(2)}</span>
+                      <span style={{ color: "var(--text-secondary)" }}>£{total.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span style={{ color: "var(--text-muted)" }}>Shipping</span>
@@ -103,16 +101,8 @@ export default function CartPage() {
                     <div className="border-t pt-2.5" style={{ borderColor: "var(--border-color)" }}>
                       <div className="flex justify-between font-bold text-base">
                         <span style={{ color: "var(--text-primary)" }}>Total</span>
-                        <span style={{ color: "var(--accent-primary)" }}>${total.toFixed(2)}</span>
+                        <span style={{ color: "var(--accent-primary)" }}>£{total.toFixed(2)}</span>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Profit summary */}
-                  <div className="mt-4 p-3 rounded-xl" style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.2)" }}>
-                    <div className="flex items-center gap-2 text-xs text-green-400 font-semibold">
-                      <Zap size={12} />
-                      Your profit on this order: ${profit.toFixed(2)}
                     </div>
                   </div>
 
@@ -133,7 +123,7 @@ export default function CartPage() {
                 <div className="p-4 rounded-2xl border space-y-2" style={{ background: "var(--bg-card)", borderColor: "var(--border-color)" }}>
                   {[
                     { icon: Shield, text: "Buyer Protection Guarantee" },
-                    { icon: Truck, text: "Free shipping on orders $50+" },
+                    { icon: Truck, text: "Free UK delivery on all orders" },
                     { icon: Zap, text: "Fast 7-15 day delivery" },
                   ].map(({ icon: Icon, text }) => (
                     <div key={text} className="flex items-center gap-2 text-xs" style={{ color: "var(--text-muted)" }}>

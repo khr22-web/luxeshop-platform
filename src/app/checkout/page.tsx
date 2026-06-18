@@ -24,7 +24,6 @@ export default function CheckoutPage() {
   const [couponValid, setCouponValid] = useState(false);
   const [couponLoading, setCouponLoading] = useState(false);
 
-  const profit = items.reduce((s, i) => s + (i.price - i.originalPrice) * i.quantity, 0);
   const grandTotal = Math.max(0, total - couponDiscount);
 
   async function applyCoupon() {
@@ -322,8 +321,8 @@ export default function CheckoutPage() {
                 <>
                   <Lock size={20} />
                   {paymentMethod === "paypal"
-                    ? `Pay $${grandTotal.toFixed(2)} with PayPal`
-                    : `Pay $${grandTotal.toFixed(2)} Securely`}
+                    ? `Pay £${grandTotal.toFixed(2)} with PayPal`
+                    : `Pay £${grandTotal.toFixed(2)} Securely`}
                 </>
               )}
             </button>
@@ -356,7 +355,7 @@ export default function CheckoutPage() {
                       <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{item.source === "aliexpress" ? "AliExpress" : "Amazon"}</p>
                     </div>
                     <span className="text-sm font-bold flex-shrink-0" style={{ color: "var(--text-primary)" }}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      £{(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                 ))}

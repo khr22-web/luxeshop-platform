@@ -141,7 +141,7 @@ function SearchContent() {
           {showFilters && (
             <div className="mb-5 p-4 rounded-xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border-color)" }}>
               <p className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-                Price Range: ${priceRange[0]} — ${priceRange[1]}
+                Price Range: £{priceRange[0]} — £{priceRange[1]}
               </p>
               <input
                 type="range" min={0} max={200} value={priceRange[1]}
