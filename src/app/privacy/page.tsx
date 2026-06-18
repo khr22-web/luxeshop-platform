@@ -27,22 +27,21 @@ We are committed to protecting your personal data and complying with the UK Gene
 
 Account & Identity Data: Name, email address, password (encrypted), account preferences.
 
-Transaction Data: Order history, items purchased, payment method type (we do not store full card details — payments are processed by Stripe and PayPal).
+Affiliate & Click Data: Products you view and click on our platform before being redirected to our partners (e.g., Amazon).
 
 Technical Data: IP address, browser type, device information, cookies, and usage data collected via analytics tools.
 
 Communication Data: Messages you send us via our contact form or email.
 
-We do not collect sensitive personal data (such as health, race, or political opinions).`,
+Important Note: We do not process payments directly and therefore do not collect or store credit card details or billing information. All transactions are handled securely by our partner platforms.`,
   },
   {
     id: "how-we-use",
     title: "3. How We Use Your Data",
     content: `We use your personal data for the following purposes:
 
-• To process and fulfil your orders and send order confirmations.
 • To manage your account and provide customer support.
-• To send transactional emails (order updates, shipping notifications).
+• To track affiliate referrals and improve our product curation.
 • To improve our website and services through analytics.
 • To comply with legal obligations.
 • To detect and prevent fraud.
@@ -54,8 +53,8 @@ We will only send you marketing communications if you have explicitly opted in. 
     title: "4. Legal Basis for Processing",
     content: `Under UK GDPR, we process your personal data on the following legal bases:
 
-• Contract Performance: Processing necessary to fulfil your orders.
-• Legitimate Interests: Improving our services, fraud prevention, and security.
+• Legitimate Interests: Operating our affiliate platform, improving our services, fraud prevention, and security.
+• Contract Performance: Managing your account on our platform.
 • Legal Obligation: Compliance with applicable laws and regulations.
 • Consent: Marketing communications (where you have opted in).`,
   },
@@ -64,10 +63,9 @@ We will only send you marketing communications if you have explicitly opted in. 
     title: "5. Data Sharing & Third Parties",
     content: `We share your data only with trusted third parties who help us operate our business:
 
-• Stripe & PayPal: Payment processing (subject to their own privacy policies).
-• Amazon & AliExpress: Affiliate referral links (we share only anonymised click data).
+• Amazon: Affiliate referral links (we share only anonymised click data).
 • Vercel: Website hosting and infrastructure.
-• Email service providers: For transactional email delivery.
+• Email service providers: For account and marketing email delivery.
 
 We do not sell your personal data to any third party.`,
   },

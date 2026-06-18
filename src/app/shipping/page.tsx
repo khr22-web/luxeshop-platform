@@ -23,10 +23,10 @@ export default function ShippingPage() {
           {/* Quick summary cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
-              { icon: Truck, title: "Free Shipping", desc: "On all orders" },
-              { icon: Clock, title: "7–20 Days", desc: "Standard delivery" },
-              { icon: Globe, title: "Worldwide", desc: "We ship globally" },
-              { icon: Shield, title: "Tracked", desc: "Full tracking included" },
+              { icon: Truck, title: "Partner Shipping", desc: "Fulfilled by Amazon" },
+              { icon: Clock, title: "Fast Delivery", desc: "Prime available" },
+              { icon: Globe, title: "UK Focused", desc: "Ships to UK & beyond" },
+              { icon: Shield, title: "Tracked", desc: "Via partner platform" },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="rounded-2xl p-4 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: "rgba(124,111,255,0.15)" }}>
@@ -43,46 +43,44 @@ export default function ShippingPage() {
             {[
               {
                 icon: Truck,
-                title: "Shipping Methods & Timeframes",
+                title: "Shipping & Fulfillment",
                 content: [
-                  { heading: "Standard Shipping (Free)", body: "Estimated delivery: 7–20 business days. All orders ship via standard international post with full tracking. This is our default and free shipping method available on every order." },
-                  { heading: "Express Shipping (£9.99)", body: "Estimated delivery: 3–7 business days. Available at checkout for time-sensitive orders. Express shipping uses priority courier services (DHL, FedEx, or equivalent)." },
-                  { heading: "Processing Time", body: "Orders are processed within 1–2 business days of payment confirmation. You will receive a tracking number by email once your order has shipped." },
+                  { heading: "Partner Fulfillment", body: "As an affiliate aggregator, LuxeShop London curates products but does not ship them directly. All orders are fulfilled by our trusted partners (primarily Amazon.co.uk)." },
+                  { heading: "Shipping Options", body: "Shipping methods, costs, and timeframes are determined by the partner seller. You will see all available shipping options (including Prime delivery if applicable) during checkout on the partner's website." },
+                  { heading: "Processing Time", body: "Orders are processed according to the partner's timeline, typically within 1–2 business days. You will receive shipping confirmation directly from the partner." },
                 ],
               },
               {
                 icon: Globe,
-                title: "International Shipping",
+                title: "Delivery Locations",
                 content: [
-                  { heading: "Countries We Ship To", body: "We ship to over 150 countries worldwide. Shipping availability and estimated delivery times are shown at checkout based on your delivery address." },
-                  { heading: "Customs & Import Duties", body: "International orders may be subject to customs duties and import taxes levied by the destination country. These charges are the responsibility of the recipient and are not included in our prices." },
-                  { heading: "Restricted Countries", body: "We are unable to ship to certain countries due to trade restrictions. If your country is not available at checkout, please contact us for alternatives." },
+                  { heading: "UK Delivery", body: "Most products featured on LuxeShop London are specifically selected for fast, reliable delivery within the United Kingdom." },
+                  { heading: "International Shipping", body: "International shipping availability is determined by the individual seller on the partner platform. Please check the shipping details on the partner's website before completing your purchase." },
                 ],
               },
               {
                 icon: Clock,
                 title: "Order Tracking",
                 content: [
-                  { heading: "Tracking Number", body: "Once your order ships, you will receive a confirmation email with your tracking number and a link to track your package in real time." },
-                  { heading: "Tracking Updates", body: "Tracking information may take 24–48 hours to update after your order has shipped. If your tracking shows no movement for more than 5 business days, please contact our support team." },
+                  { heading: "Tracking Your Order", body: "Once your order is placed on the partner's website, you can track its progress directly through your account on their platform (e.g., your Amazon Orders page)." },
+                  { heading: "Tracking Notifications", body: "The partner platform will send you tracking updates via email or app notifications according to their standard procedures." },
                 ],
               },
               {
                 icon: RefreshCw,
                 title: "Returns & Refunds",
                 content: [
-                  { heading: "Return Window", body: "You have 30 days from the date of delivery to request a return. Items must be unused, in original packaging, and in the same condition as received." },
-                  { heading: "How to Return", body: "Contact our support team at support@luxeshop.com with your order number and reason for return. We will provide a prepaid return label for eligible items." },
-                  { heading: "Refund Processing", body: "Refunds are processed within 5–10 business days after we receive and inspect the returned item. Refunds are issued to the original payment method." },
-                  { heading: "Non-Returnable Items", body: "Certain items cannot be returned for hygiene or safety reasons, including earbuds, underwear, and personalised products. These will be clearly marked on the product page." },
+                  { heading: "Return Policy", body: "All returns and refunds are subject to the policies of the partner platform where you completed your purchase. Our partners generally offer robust 14-day to 30-day return windows." },
+                  { heading: "How to Return", body: "To initiate a return, please log into your account on the partner's website (e.g., Amazon.co.uk) and follow their standard return process." },
+                  { heading: "Refund Processing", body: "Refunds are processed by the partner platform directly to your original payment method, according to their timeline." },
                 ],
               },
               {
                 icon: AlertCircle,
-                title: "Lost or Damaged Packages",
+                title: "Customer Support",
                 content: [
-                  { heading: "Lost Packages", body: "If your package has not arrived within 30 days of the estimated delivery date, please contact us. We will investigate with the carrier and either reship your order or issue a full refund." },
-                  { heading: "Damaged Items", body: "If your item arrives damaged, please take photos and contact us within 48 hours of delivery. We will arrange a replacement or refund at no additional cost to you." },
+                  { heading: "Order Issues", body: "For any issues regarding delayed, lost, or damaged packages, please contact the customer support team of the partner platform where the purchase was made." },
+                  { heading: "Platform Assistance", body: "If you need help navigating LuxeShop London or have questions about our curation, our team is always here to help." },
                 ],
               },
             ].map(({ icon: Icon, title, content }) => (

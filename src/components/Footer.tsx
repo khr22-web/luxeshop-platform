@@ -95,22 +95,8 @@ export default function Footer() {
               The UK&apos;s premier luxury shopping destination. Discover, compare, and
               buy from top brands — with free delivery and buyer protection on every order.
             </p>
-            {/* Social Links */}
+            {/* Social Links - Hidden until accounts are ready */}
             <div className="flex items-center gap-3 flex-wrap">
-              {socialLinks.map(({ Icon, label, href, color }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  title={label}
-                  className="w-9 h-9 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.08)]"
-                  style={{ color: color }}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
               <a
                 href="mailto:support@luxeshoplondon.co.uk"
                 aria-label="Email"

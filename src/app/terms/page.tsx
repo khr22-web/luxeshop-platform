@@ -19,7 +19,7 @@ These terms apply to all visitors, users, and customers of LuxeShop London Ltd, 
   {
     id: "services",
     title: "2. Our Services",
-    content: `LuxeShop London operates as an e-commerce platform that aggregates and sells products sourced from trusted suppliers including Amazon and AliExpress. We act as the merchant of record for all transactions completed on our platform.
+    content: `LuxeShop London operates as an e-commerce aggregator platform that curates and links to products from trusted suppliers, primarily Amazon. We do not act as the merchant of record, nor do we process payments directly for these products. All purchases are completed on the respective supplier's website (e.g., Amazon.co.uk).
 
 We reserve the right to modify, suspend, or discontinue any part of our services at any time without prior notice.`,
   },
@@ -39,54 +39,36 @@ We reserve the right to suspend or terminate accounts that violate these Terms o
   {
     id: "orders",
     title: "4. Orders & Pricing",
-    content: `All prices are displayed in British Pounds Sterling (GBP) and include VAT where applicable.
+    content: `All prices are displayed in British Pounds Sterling (GBP) as provided by our partner suppliers.
 
-When you place an order, you are making an offer to purchase. We reserve the right to accept or decline any order. An order is confirmed only when you receive an order confirmation email from us.
+Because we operate as an affiliate aggregator, we do not process orders directly. When you click to buy a product, you are redirected to the partner's website (e.g., Amazon.co.uk) where the transaction is completed.
 
-We strive to ensure all prices are accurate. In the event of a pricing error, we will notify you and give you the option to proceed at the correct price or cancel your order.
-
-Product availability is subject to change without notice.`,
+While we strive for accuracy by regularly updating product information, prices and availability are determined by the final seller and are subject to change without notice. The final price and availability will be confirmed at checkout on the partner's website.`,
   },
   {
     id: "payment",
     title: "5. Payment",
-    content: `We accept the following payment methods:
-• Credit and debit cards (Visa, Mastercard, American Express) via Stripe
-• PayPal
-• Apple Pay and Google Pay (where available)
+    content: `LuxeShop London does not collect or process payments directly. All payments are securely processed by the partner website (e.g., Amazon) where you complete your purchase.
 
-All payments are processed securely by our payment partners (Stripe and PayPal). We do not store your full card details on our servers.
-
-By providing payment information, you confirm that you are authorised to use the payment method and that the information provided is accurate.`,
+Please refer to the payment policies and accepted methods of the respective partner website during checkout.`,
   },
   {
     id: "delivery",
     title: "6. Delivery & Shipping",
-    content: `We offer free delivery on all orders to UK addresses. Estimated delivery times vary by product and supplier:
+    content: `As an affiliate platform, LuxeShop London does not ship products directly. Delivery times, shipping costs, and fulfillment are handled entirely by the partner seller (e.g., Amazon).
 
-• Standard delivery: 7–15 business days
-• Express delivery: 3–7 business days (where available)
+Many products curated on our platform are eligible for free or expedited delivery through the partner's services (such as Amazon Prime).
 
-Delivery times are estimates and not guaranteed. We are not responsible for delays caused by customs, postal services, or other factors outside our control.
-
-For international orders, additional customs duties and taxes may apply and are the responsibility of the customer.`,
+Risk of loss and title for items are governed by the shipping policies of the respective partner website where the transaction is completed.`,
   },
   {
     id: "returns",
     title: "7. Returns & Refunds",
-    content: `You have the right to cancel your order within 14 days of receiving your items under the UK Consumer Contracts Regulations 2013.
+    content: `Because purchases are made directly on our partners' websites (e.g., Amazon), all returns, exchanges, and refunds are subject to the return policies of those respective platforms.
 
-To initiate a return:
-1. Contact us at support@luxeshoplondon.co.uk within 14 days of delivery.
-2. Items must be returned in their original condition and packaging.
-3. Refunds will be processed within 14 days of receiving the returned item.
+If you need to return an item, please initiate the return process through your account on the partner website where the purchase was made.
 
-The following items are excluded from our returns policy:
-• Personalised or custom-made items
-• Perishable goods
-• Items that have been used or damaged after delivery
-
-We reserve the right to refuse returns that do not meet our policy requirements.`,
+We do not process returns or issue refunds directly, but our curated partners typically offer robust 14-day to 30-day return policies in compliance with UK consumer law.`,
   },
   {
     id: "intellectual-property",
@@ -170,9 +152,9 @@ export default function TermsPage() {
           {/* Quick summary cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
-              { icon: ShoppingCart, title: "Free Returns", desc: "14-day return policy" },
-              { icon: CreditCard, title: "Secure Payments", desc: "Stripe & PayPal protected" },
-              { icon: RefreshCw, title: "Free Delivery", desc: "On all UK orders" },
+              { icon: ShoppingCart, title: "Partner Returns", desc: "Subject to partner policy" },
+              { icon: CreditCard, title: "Secure Payments", desc: "Processed by partners" },
+              { icon: RefreshCw, title: "Fast Delivery", desc: "Fulfilled by Amazon" },
               { icon: AlertTriangle, title: "18+ Only", desc: "Must be 18 to purchase" },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="rounded-2xl p-4 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
