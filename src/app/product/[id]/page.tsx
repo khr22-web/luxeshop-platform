@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Star, ShoppingCart, Heart, Shield, Truck, RefreshCw, Zap, ExternalLink, ChevronRight, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { PRODUCTS_MAP, PRODUCTS } from "@/lib/products";
+import { CATALOG_MAP, CATALOG_PRODUCTS } from "@/lib/catalog";
 import ProductCard from "@/components/ProductCard";
 import ProductReviews from "@/components/ProductReviews";
 import WishlistButton from "@/components/WishlistButton";
@@ -16,7 +17,8 @@ export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { addItem } = useCart();
-  const product = PRODUCTS_MAP[id];
+  // Look up in static PRODUCTS_MAP first, then fall back to CATALOG_MAP (trending API products)
+  const product = PRODUCTS_MAP[id] || CATALOG_MAP[id] || null;
   const [selectedImage, setSelectedImage] = useState(0);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -54,8 +56,9 @@ export default function ProductPage() {
     setTimeout(() => setAdded(false), 2000);
   };
 
-  // Related products (same category, excluding current)
-  const related = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  // Related products (same category, excluding current) — from both static and catalog
+  const allProducts = [...PRODUCTS, ...CATALOG_PRODUCTS];
+  const related = allProducts.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
