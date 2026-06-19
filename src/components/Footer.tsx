@@ -151,6 +151,16 @@ export default function Footer() {
               >
                 <FacebookIcon className="w-4 h-4" />
               </a>
+              <a
+                href="https://www.instagram.com/luxeshoplondonuk"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                title="Follow us on Instagram"
+                className="w-9 h-9 rounded-lg border border-[rgba(225,48,108,0.2)] bg-[rgba(225,48,108,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(225,48,108,0.5)] text-[#E1306C]"
+              >
+                <InstagramIcon className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
