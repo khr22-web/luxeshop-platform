@@ -141,6 +141,16 @@ export default function Footer() {
               >
                 <TikTokIcon className="w-4 h-4" />
               </a>
+              <a
+                href="https://www.facebook.com/share/1FQ3o13GnQ/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Follow us on Facebook"
+                className="w-9 h-9 rounded-lg border border-[rgba(24,119,242,0.2)] bg-[rgba(24,119,242,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(24,119,242,0.5)] text-[#1877F2]"
+              >
+                <FacebookIcon className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
