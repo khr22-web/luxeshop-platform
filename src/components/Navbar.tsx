@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Heart, Menu, X, Search } from "lucide-react";
+import { ShoppingCart, Heart, Menu, X, Search, Flame } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import NavbarAuth from "@/components/NavbarAuth";
 
@@ -13,7 +13,6 @@ const navLinks = [
   { href: "/category/fashion", label: "Fashion" },
   { href: "/category/bags", label: "Bags" },
   { href: "/category/gaming", label: "Gaming" },
-  { href: "/search?q=deals", label: "Deals" },
 ];
 
 export default function Navbar() {
@@ -66,6 +65,10 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <Link href="/deals" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold text-orange-400 hover:text-white hover:bg-orange-500/10 border border-orange-500/30 hover:border-orange-500/60 transition-all duration-200 ml-1">
+              <Flame className="w-3.5 h-3.5" />
+              Super Deals
+            </Link>
           </div>
 
           {/* Actions */}
@@ -129,6 +132,10 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <Link href="/deals" onClick={() => setOpen(false)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-orange-400 bg-orange-500/10 border border-orange-500/30 transition-all">
+              <Flame className="w-4 h-4" /> 🔥 Super Deals
+            </Link>
             <Link href="/cart" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
               <ShoppingCart size={16} /> Cart
               {count > 0 && <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7c6fff] to-[#38bdf8]">{count}</span>}

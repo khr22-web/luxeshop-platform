@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import SuperDealsSection from "@/components/SuperDealsSection";
 import CategoriesGrid from "@/components/CategoriesGrid";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import SourceShowcase from "@/components/SourceShowcase";
@@ -11,6 +12,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#0a0a0f]">
       <Navbar />
       <HeroSection />
+      <SuperDealsSection />
       <CategoriesGrid />
       <FeaturedProducts />
       <SourceShowcase />
