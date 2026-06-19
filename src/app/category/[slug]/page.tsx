@@ -61,7 +61,7 @@ export default function CategoryPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(500);
   const [sort, setSort] = useState("popular");
   const [source, setSource] = useState("all");
   const [priceRange, setPriceRange] = useState({ min: 0, max: 9999 });
