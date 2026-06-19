@@ -204,6 +204,29 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* Powered By Platforms */}
+        <div className="border-t border-[rgba(201,168,76,0.08)] pt-8 mb-8">
+          <p className="text-[#4a4a5a] text-xs text-center mb-4 uppercase tracking-widest">Powered By</p>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <a href="https://www.aliexpress.com" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[rgba(255,107,53,0.2)] bg-[rgba(255,107,53,0.06)] hover:border-[rgba(255,107,53,0.4)] transition-all duration-200">
+              <span className="text-sm">🛒</span>
+              <span className="text-xs font-bold" style={{color:"#ff6b35"}}>AliExpress</span>
+            </a>
+            <a href="https://www.amazon.co.uk/?tag=luxeshoplondo-21" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[rgba(255,153,0,0.2)] bg-[rgba(255,153,0,0.06)] hover:border-[rgba(255,153,0,0.4)] transition-all duration-200">
+              <span className="text-sm">📦</span>
+              <span className="text-xs font-bold" style={{color:"#f90"}}>Amazon</span>
+            </a>
+            <a href="https://temu.to/m/luxeshoplondon" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[rgba(255,105,0,0.2)] bg-[rgba(255,105,0,0.06)] hover:border-[rgba(255,105,0,0.4)] transition-all duration-200">
+              <span className="text-sm">🛍️</span>
+              <span className="text-xs font-bold" style={{color:"#ff6900"}}>Temu</span>
+              <span className="text-[9px] font-black text-white bg-[#ff6900] px-1.5 py-0.5 rounded-full">NEW</span>
+            </a>
+          </div>
+        </div>
+
         {/* Payment Methods */}
         <div className="border-t border-[rgba(201,168,76,0.08)] pt-8 mb-8">
           <p className="text-[#4a4a5a] text-xs text-center mb-4 uppercase tracking-widest">Secure Payments Accepted</p>

@@ -2,6 +2,8 @@
 
 import { CheckCircle, ArrowRight } from "lucide-react";
 
+const TEMU_AFFILIATE = "https://temu.to/m/luxeshoplondon";
+
 const sources = [
   {
     name: "AliExpress",
@@ -14,6 +16,7 @@ const sources = [
     hoverBorder: "hover:border-[rgba(255,107,53,0.6)]",
     glowColor: "hover:shadow-[0_0_40px_rgba(255,107,53,0.15)]",
     emoji: "🛒",
+    link: "https://www.aliexpress.com",
     features: [
       "100M+ products",
       "Factory-direct pricing",
@@ -33,12 +36,33 @@ const sources = [
     hoverBorder: "hover:border-[rgba(255,153,0,0.6)]",
     glowColor: "hover:shadow-[0_0_40px_rgba(255,153,0,0.15)]",
     emoji: "📦",
+    link: "https://www.amazon.co.uk/?tag=luxeshoplondo-21",
     features: [
       "350M+ products",
       "Prime 2-day delivery",
       "Verified customer reviews",
       "Easy returns policy",
       "Amazon's Choice badges",
+    ],
+  },
+  {
+    name: "Temu",
+    tagline: "Ultra-Low Prices, Trending Fast",
+    description:
+      "Shop millions of trending products at unbeatable prices. Temu brings factory-direct deals with fast UK delivery and full buyer protection.",
+    color: "#ff6900",
+    bgGradient: "from-[rgba(255,105,0,0.15)] to-transparent",
+    borderColor: "border-[rgba(255,105,0,0.3)]",
+    hoverBorder: "hover:border-[rgba(255,105,0,0.6)]",
+    glowColor: "hover:shadow-[0_0_40px_rgba(255,105,0,0.15)]",
+    emoji: "🛍️",
+    link: TEMU_AFFILIATE,
+    features: [
+      "100M+ trending products",
+      "Up to 90% off retail prices",
+      "Free UK delivery available",
+      "Buyer protection guarantee",
+      "New deals added daily",
     ],
   },
 ];
@@ -61,21 +85,43 @@ export default function SourceShowcase() {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Two Giants,{" "}
+            Three Giants,{" "}
             <span className="text-gold-gradient">One Platform</span>
           </h2>
-          <p className="text-[#8a8a9a] text-base sm:text-lg max-w-xl mx-auto">
-            We aggregate the best products from the world&apos;s two largest e-commerce
-            platforms so you never miss a deal.
+          <p className="text-[#8a8a9a] text-base sm:text-lg max-w-2xl mx-auto">
+            We aggregate the best products from the world&apos;s three largest e-commerce
+            platforms — AliExpress, Amazon &amp; Temu — so you never miss a deal.
           </p>
         </div>
 
+        {/* Platform Logos Strip */}
+        <div className="flex items-center justify-center gap-6 mb-12 flex-wrap">
+          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[rgba(255,107,53,0.08)] border border-[rgba(255,107,53,0.2)]">
+            <span className="text-lg">🛒</span>
+            <span className="text-sm font-bold" style={{ color: "#ff6b35" }}>AliExpress</span>
+          </div>
+          <span className="text-[#333348] text-xl font-light">+</span>
+          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[rgba(255,153,0,0.08)] border border-[rgba(255,153,0,0.2)]">
+            <span className="text-lg">📦</span>
+            <span className="text-sm font-bold" style={{ color: "#f90" }}>Amazon</span>
+          </div>
+          <span className="text-[#333348] text-xl font-light">+</span>
+          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[rgba(255,105,0,0.08)] border border-[rgba(255,105,0,0.2)]">
+            <span className="text-lg">🛍️</span>
+            <span className="text-sm font-bold" style={{ color: "#ff6900" }}>Temu</span>
+            <span className="text-[10px] font-black text-white bg-[#ff6900] px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+          </div>
+        </div>
+
         {/* Source Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {sources.map((source) => (
-            <div
+            <a
               key={source.name}
-              className={`relative rounded-3xl border ${source.borderColor} ${source.hoverBorder} ${source.glowColor} bg-[rgba(12,12,20,0.9)] p-8 transition-all duration-300 overflow-hidden group cursor-pointer`}
+              href={source.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`relative rounded-3xl border ${source.borderColor} ${source.hoverBorder} ${source.glowColor} bg-[rgba(12,12,20,0.9)] p-8 transition-all duration-300 overflow-hidden group cursor-pointer block no-underline`}
             >
               {/* Background gradient */}
               <div
@@ -92,6 +138,9 @@ export default function SourceShowcase() {
                       style={{ color: source.color }}
                     >
                       {source.name}
+                      {source.name === "Temu" && (
+                        <span className="ml-2 text-xs font-black text-white bg-[#ff6900] px-2 py-0.5 rounded-full align-middle">NEW</span>
+                      )}
                     </h3>
                     <p className="text-[#8a8a9a] text-sm font-medium">{source.tagline}</p>
                   </div>
@@ -122,24 +171,18 @@ export default function SourceShowcase() {
                 </ul>
 
                 {/* CTA */}
-                <button
-                  className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200"
+                <div
+                  className="w-full py-3 rounded-xl font-semibold text-sm text-center transition-all duration-200"
                   style={{
                     background: `${source.color}15`,
                     border: `1px solid ${source.color}40`,
                     color: source.color,
                   }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = `${source.color}25`;
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = `${source.color}15`;
-                  }}
                 >
                   Browse {source.name} Products →
-                </button>
+                </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

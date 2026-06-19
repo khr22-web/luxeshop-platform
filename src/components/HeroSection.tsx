@@ -30,6 +30,8 @@ export default function HeroSection() {
       window.open(`https://www.aliexpress.com/wholesale?SearchText=${encoded}`, "_blank");
     } else if (src === "amazon") {
       window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
+    } else if (src === "temu") {
+      window.open(`https://www.temu.com/search_result.html?search_key=${encoded}&refer_page_name=home`, "_blank");
     } else {
       // "all" — default to Amazon UK with affiliate tag
       window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
@@ -56,10 +58,21 @@ export default function HeroSection() {
 
         <p className="text-[#8888aa] text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
           Aggregating millions of products from{" "}
-          <span className="text-[#ff6b35] font-semibold">AliExpress</span> and{" "}
-          <span className="text-[#f90] font-semibold">Amazon</span>{" "}
+          <span className="text-[#ff6b35] font-semibold">AliExpress</span>,{" "}
+          <span className="text-[#f90] font-semibold">Amazon</span> &amp;{" "}
+          <span className="text-[#ff6900] font-semibold">Temu</span>{" "}
           — curated, compared, and delivered to you.
         </p>
+
+        {/* Platform logos strip */}
+        <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
+          <span className="text-[10px] text-[#44445a] uppercase tracking-widest">Powered by</span>
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[rgba(255,107,53,0.1)] border border-[rgba(255,107,53,0.2)]" style={{color:"#ff6b35"}}>🛒 AliExpress</span>
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[rgba(255,153,0,0.1)] border border-[rgba(255,153,0,0.2)]" style={{color:"#f90"}}>📦 Amazon</span>
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[rgba(255,105,0,0.1)] border border-[rgba(255,105,0,0.2)]" style={{color:"#ff6900"}}>
+            🛍️ Temu <span className="text-[9px] bg-[#ff6900] text-white px-1 py-0.5 rounded-full ml-1">NEW</span>
+          </span>
+        </div>
 
         {/* ── Search Bar (mobile-first) ── */}
         <form onSubmit={(e) => { e.preventDefault(); handleSearch(""); }} className="w-full max-w-2xl mx-auto mb-5">
@@ -73,6 +86,7 @@ export default function HeroSection() {
               <option value="all">All</option>
               <option value="aliexpress">AliExpress</option>
               <option value="amazon">Amazon</option>
+              <option value="temu">Temu</option>
             </select>
             {/* Input */}
             <div className="flex items-center flex-1 px-3 min-w-0">
