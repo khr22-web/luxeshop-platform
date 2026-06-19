@@ -131,6 +131,16 @@ export default function Footer() {
               >
                 <YouTubeIcon className="w-4 h-4" />
               </a>
+              <a
+                href="https://www.tiktok.com/@info.luxe.shop"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                title="Follow us on TikTok"
+                className="w-9 h-9 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(255,255,255,0.3)] text-white"
+              >
+                <TikTokIcon className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
