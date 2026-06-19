@@ -5,6 +5,8 @@ import { Mail } from "lucide-react";
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   Shop: [
     { label: "All Products", href: "/search" },
+    { label: "🔥 Super Deals", href: "/deals" },
+    { label: "💸 Deals Under £20", href: "/under20" },
     { label: "Electronics", href: "/category/electronics" },
     { label: "Fashion", href: "/category/fashion" },
     { label: "Gaming", href: "/category/gaming" },

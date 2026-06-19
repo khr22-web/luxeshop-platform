@@ -69,6 +69,9 @@ export default function Navbar() {
               <Flame className="w-3.5 h-3.5" />
               Super Deals
             </Link>
+            <Link href="/under20" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold text-purple-400 hover:text-white hover:bg-purple-500/10 border border-purple-500/30 hover:border-purple-500/60 transition-all duration-200">
+              💸 Under £20
+            </Link>
           </div>
 
           {/* Actions */}
@@ -135,6 +138,10 @@ export default function Navbar() {
             <Link href="/deals" onClick={() => setOpen(false)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-orange-400 bg-orange-500/10 border border-orange-500/30 transition-all">
               <Flame className="w-4 h-4" /> 🔥 Super Deals
+            </Link>
+            <Link href="/under20" onClick={() => setOpen(false)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 transition-all">
+              💸 Deals Under £20
             </Link>
             <Link href="/cart" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-[#8888aa] hover:text-white hover:bg-white/[0.06] transition-all">
               <ShoppingCart size={16} /> Cart
