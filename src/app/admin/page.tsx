@@ -244,144 +244,89 @@ export default function AdminDashboard() {
         {/* ── OVERVIEW TAB ── */}
         {activeTab === "overview" && stats && (
           <>
-            {/* KPI Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {[
-                { label: "Total Revenue", value: `$${stats.totalRevenue.toFixed(2)}`, icon: DollarSign, color: "#7c6fff", change: "+12.5%" },
-                { label: "Net Profit (20%)", value: `$${stats.totalProfit.toFixed(2)}`, icon: TrendingUp, color: "#10b981", change: "+8.3%" },
-                { label: "Total Orders", value: stats.totalOrders.toString(), icon: ShoppingBag, color: "#38bdf8", change: "+5 today" },
-                { label: "Avg Order Value", value: `$${stats.avgOrderValue.toFixed(2)}`, icon: Users, color: "#f59e0b", change: "+2.1%" },
-              ].map(({ label, value, icon: Icon, color, change }) => (
-                <div key={label} className="rounded-2xl p-5" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${color}20` }}>
-                      <Icon size={20} style={{ color }} />
-                    </div>
-                    <span className="text-xs font-semibold text-green-400">{change}</span>
+            {/* Affiliate Portals Quick Access */}
+            <div className="rounded-2xl p-6 mb-8" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+              <h2 className="font-bold text-lg mb-2" style={{ color: "var(--text-primary)" }}>📊 Affiliate Earnings Dashboard</h2>
+              <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>Since all sales are processed directly through Amazon and AliExpress, click below to view your real-time earnings and performance reports.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Amazon Associates */}
+                <a
+                  href="https://affiliate-program.amazon.co.uk/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-5 rounded-2xl transition-all hover:scale-[1.02] cursor-pointer"
+                  style={{ background: "linear-gradient(135deg, #ff9900 0%, #e47911 100%)", textDecoration: "none" }}
+                >
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-white/20 flex-shrink-0">
+                    <span className="text-2xl">🛒</span>
                   </div>
-                  <p className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>{value}</p>
-                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>{label}</p>
-                </div>
+                  <div>
+                    <p className="font-bold text-white text-lg">Amazon Associates</p>
+                    <p className="text-white/80 text-sm">View earnings & reports</p>
+                    <p className="text-white/60 text-xs mt-1">Tag: luxeshoplondo-21</p>
+                  </div>
+                  <div className="ml-auto">
+                    <span className="text-white/80 text-2xl">→</span>
+                  </div>
+                </a>
+
+                {/* AliExpress Affiliate */}
+                <a
+                  href="https://portals.aliexpress.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-5 rounded-2xl transition-all hover:scale-[1.02] cursor-pointer"
+                  style={{ background: "linear-gradient(135deg, #e43225 0%, #c0392b 100%)", textDecoration: "none" }}
+                >
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-white/20 flex-shrink-0">
+                    <span className="text-2xl">🌐</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-lg">AliExpress Affiliate</p>
+                    <p className="text-white/80 text-sm">View commissions & stats</p>
+                    <p className="text-white/60 text-xs mt-1">Portals Dashboard</p>
+                  </div>
+                  <div className="ml-auto">
+                    <span className="text-white/80 text-2xl">→</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+              {[
+                { label: "Amazon Reports", url: "https://affiliate-program.amazon.co.uk/home/reports", icon: "📈", color: "#ff9900" },
+                { label: "Amazon Payments", url: "https://affiliate-program.amazon.co.uk/home/account", icon: "💰", color: "#10b981" },
+                { label: "AliExpress Stats", url: "https://portals.aliexpress.com/affiportals/web/portals.htm", icon: "📊", color: "#e43225" },
+                { label: "View Live Site", url: "https://luxeshoplondon.co.uk", icon: "🌍", color: "#7c6fff" },
+              ].map(({ label, url, icon, color }) => (
+                <a
+                  key={label}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl p-4 flex flex-col items-center gap-2 transition-all hover:scale-[1.03]"
+                  style={{ background: "var(--bg-card)", border: `1px solid ${color}40`, textDecoration: "none" }}
+                >
+                  <span className="text-3xl">{icon}</span>
+                  <p className="text-xs font-semibold text-center" style={{ color }}>{label}</p>
+                </a>
               ))}
             </div>
 
-            {/* Revenue Chart */}
-            <div className="rounded-2xl p-6 mb-8" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="font-bold text-lg" style={{ color: "var(--text-primary)" }}>Revenue — Last 30 Days</h2>
-                <span className="text-xs px-3 py-1 rounded-full" style={{ background: "rgba(124,111,255,0.15)", color: "#7c6fff" }}>USD</span>
-              </div>
-              <ResponsiveContainer width="100%" height={220}>
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#7c6fff" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#7c6fff" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 10 }} tickLine={false} axisLine={false} interval={4} />
-                  <YAxis tick={{ fill: "#666", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v}`} />
-                  <Tooltip
-                    contentStyle={{ background: "#1a1b2e", border: "1px solid rgba(124,111,255,0.3)", borderRadius: "12px", color: "#fff" }}
-                    formatter={(v) => [`$${Number(v ?? 0).toFixed(2)}`, "Revenue"]}
-                  />
-                  <Area type="monotone" dataKey="revenue" stroke="#7c6fff" strokeWidth={2} fill="url(#revenueGrad)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              {/* Top Products */}
-              <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-                <h2 className="font-bold mb-5" style={{ color: "var(--text-primary)" }}>🏆 Top Products by Revenue</h2>
-                <div className="space-y-4">
-                  {stats.topProducts.map((p, i) => (
-                    <div key={p.id} className="flex items-center gap-3">
-                      <span className="w-6 text-center text-sm font-bold" style={{ color: i === 0 ? "#f59e0b" : "var(--text-muted)" }}>#{i + 1}</span>
-                      <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0" style={{ background: "var(--bg-secondary)" }}>
-                        <Image src={p.image} alt={p.title} fill className="object-cover" sizes="40px" unoptimized />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>{p.title}</p>
-                        <p className="text-xs" style={{ color: "var(--text-muted)" }}>{p.qty} units sold</p>
-                      </div>
-                      <span className="text-sm font-bold" style={{ color: "#10b981" }}>${p.revenue.toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Order Status Breakdown */}
-              <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-                <h2 className="font-bold mb-5" style={{ color: "var(--text-primary)" }}>📊 Order Status Breakdown</h2>
-                {(() => {
-                  const allOrders = stats.allOrders.length > 0 ? stats.allOrders : stats.recentOrders;
-                  const counts = { paid: 0, fulfilled: 0, pending: 0, refunded: 0 };
-                  allOrders.forEach((o) => { if (counts[o.status] !== undefined) counts[o.status]++; });
-                  const total = allOrders.length || 1;
-                  return (
-                    <div className="space-y-4">
-                      {(Object.entries(counts) as [keyof typeof STATUS_CONFIG, number][]).map(([status, count]) => {
-                        const cfg = STATUS_CONFIG[status];
-                        const pct = Math.round((count / total) * 100);
-                        return (
-                          <div key={status}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span style={{ color: cfg.color }}>{cfg.label}</span>
-                              <span style={{ color: "var(--text-muted)" }}>{count} orders ({pct}%)</span>
-                            </div>
-                            <div className="h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
-                              <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: cfg.color }} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })()}
-
-                {/* Profit bar chart */}
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-secondary)" }}>Daily Profit (Last 7 Days)</h3>
-                  <ResponsiveContainer width="100%" height={100}>
-                    <BarChart data={chartData.slice(-7)}>
-                      <Bar dataKey="revenue" fill="#7c6fff" radius={[4, 4, 0, 0]} />
-                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 9 }} tickLine={false} axisLine={false} />
-                      <Tooltip contentStyle={{ background: "#1a1b2e", border: "1px solid rgba(124,111,255,0.3)", borderRadius: "8px", color: "#fff", fontSize: "12px" }} formatter={(v) => [`$${Number(v ?? 0)}`, "Revenue"]} />
-                    </BarChart>
-                  </ResponsiveContainer>
+            {/* Info note */}
+            <div className="rounded-2xl p-5 mb-8" style={{ background: "rgba(124,111,255,0.08)", border: "1px solid rgba(124,111,255,0.2)" }}>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">ℹ️</span>
+                <div>
+                  <p className="font-semibold mb-1" style={{ color: "#7c6fff" }}>How Your Earnings Work</p>
+                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>When a visitor clicks "Buy Now" on LuxeShop London and completes a purchase on Amazon UK, your affiliate commission (typically 1–10% depending on category) is automatically credited to your Amazon Associates account under tag <strong style={{ color: "var(--text-secondary)" }}>luxeshoplondo-21</strong>. Payments are issued monthly by Amazon directly to your bank account.</p>
                 </div>
               </div>
             </div>
 
-            {/* Recent Orders preview */}
-            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="font-bold" style={{ color: "var(--text-primary)" }}>🕐 Recent Orders</h2>
-                <button onClick={() => setActiveTab("orders")} className="text-xs text-violet-400 hover:underline">View all →</button>
-              </div>
-              <div className="space-y-3">
-                {stats.recentOrders.slice(0, 5).map((order) => {
-                  const cfg = STATUS_CONFIG[order.status];
-                  return (
-                    <div key={order.id} className="flex items-center gap-4 p-3 rounded-xl" style={{ background: "var(--bg-secondary)" }}>
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: cfg.bg }}>
-                        <cfg.icon size={14} style={{ color: cfg.color }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>{order.customerEmail}</p>
-                        <p className="text-xs" style={{ color: "var(--text-muted)" }}>{order.id} · {new Date(order.createdAt).toLocaleDateString()}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-bold" style={{ color: "var(--accent-primary)" }}>${order.subtotal.toFixed(2)}</p>
-                        <span className="text-xs font-semibold" style={{ color: cfg.color }}>{cfg.label}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+
           </>
         )}
 
