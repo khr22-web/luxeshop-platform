@@ -7,8 +7,6 @@ export const metadata: Metadata = {
   description: "Discover the best trending products under £20. Impulse buys, viral gadgets, fashion accessories and more — all under twenty pounds with fast UK delivery.",
 };
 
-const AFFILIATE_TAG = "luxeshoplondo-21";
-
 interface Product {
   id: string;
   name: string;
@@ -20,7 +18,6 @@ interface Product {
   badgeColor: string;
   rating: number;
   reviews: number;
-  amazonKeyword: string;
   trending?: boolean;
 }
 
@@ -34,7 +31,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.8, reviews: 2341,
-    amazonKeyword: "Magnetic+Phone+Holder+Car+Dashboard",
     trending: true,
   },
   {
@@ -45,7 +41,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1550985616-10810253b84d?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.7, reviews: 5892,
-    amazonKeyword: "LED+Strip+Lights+USB+Colour+Changing+5m",
     trending: true,
   },
   {
@@ -56,7 +51,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.3, reviews: 5670,
-    amazonKeyword: "Phone+Screen+Magnifier+3D+HD+Amplifier",
     trending: true,
   },
   {
@@ -67,7 +61,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 1890,
-    amazonKeyword: "Portable+Mini+USB+Rechargeable+Fan",
     trending: true,
   },
   {
@@ -78,7 +71,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.7, reviews: 4560,
-    amazonKeyword: "Silicone+Cable+Organiser+Set+10+Pack",
   },
   {
     id: "u20-6",
@@ -88,7 +80,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.5, reviews: 3210,
-    amazonKeyword: "Wireless+Earbuds+Bluetooth+5+Sport",
     trending: true,
   },
   // Beauty
@@ -100,7 +91,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.9, reviews: 12400,
-    amazonKeyword: "Acne+Pimple+Patches+Invisible+Hydrocolloid",
     trending: true,
   },
   {
@@ -111,7 +101,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80",
     badge: "ECO PICK", badgeColor: "bg-emerald-600",
     rating: 4.8, reviews: 7890,
-    amazonKeyword: "Reusable+Makeup+Remover+Pads+16+Pack",
   },
   {
     id: "u20-9",
@@ -121,7 +110,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.7, reviews: 9230,
-    amazonKeyword: "Gel+Nail+Polish+Kit+12+Colours+UV+LED",
     trending: true,
   },
   {
@@ -132,7 +120,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 6780,
-    amazonKeyword: "Jade+Roller+Gua+Sha+Facial+Massage+Set",
     trending: true,
   },
   {
@@ -143,7 +130,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1512207736890-6ffed8a84e8d?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.5, reviews: 4320,
-    amazonKeyword: "Eyelash+Curler+Refill+Pads+Professional",
   },
   // Sports & Fitness
   {
@@ -154,7 +140,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 6780,
-    amazonKeyword: "Resistance+Bands+Set+5+Levels+Home+Gym",
   },
   {
     id: "u20-13",
@@ -164,7 +149,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.5, reviews: 4320,
-    amazonKeyword: "Posture+Corrector+Back+Support+Brace",
   },
   {
     id: "u20-14",
@@ -174,7 +158,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.9, reviews: 8120,
-    amazonKeyword: "Stainless+Steel+Insulated+Water+Bottle+500ml",
   },
   {
     id: "u20-15",
@@ -184,7 +167,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.7, reviews: 3450,
-    amazonKeyword: "Foam+Roller+Muscle+Massage+Recovery",
   },
   {
     id: "u20-16",
@@ -194,7 +176,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 2890,
-    amazonKeyword: "Jump+Rope+Speed+Skipping+Adjustable",
     trending: true,
   },
   // Home & Kitchen
@@ -206,7 +187,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80",
     badge: "ECO PICK", badgeColor: "bg-emerald-600",
     rating: 4.8, reviews: 5670,
-    amazonKeyword: "Bamboo+Cutting+Board+Set+3+Kitchen",
   },
   {
     id: "u20-18",
@@ -216,7 +196,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=400&q=80",
     badge: "ECO PICK", badgeColor: "bg-emerald-600",
     rating: 4.7, reviews: 4230,
-    amazonKeyword: "Reusable+Silicone+Food+Storage+Bags+6+Pack",
   },
   {
     id: "u20-19",
@@ -226,7 +205,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.8, reviews: 3780,
-    amazonKeyword: "Sticky+Notes+Pastel+Colours+600+Sheets",
   },
   {
     id: "u20-20",
@@ -236,7 +214,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.9, reviews: 7890,
-    amazonKeyword: "Scented+Soy+Wax+Candle+Lavender",
   },
   {
     id: "u20-21",
@@ -246,7 +223,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 2340,
-    amazonKeyword: "Cable+Knit+Cushion+Cover+45x45",
     trending: true,
   },
   // Electronics
@@ -258,7 +234,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1601524909162-ae8725290836?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.7, reviews: 9870,
-    amazonKeyword: "USB-C+Fast+Charging+Cable+3+Pack+2m",
   },
   {
     id: "u20-23",
@@ -268,7 +243,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.7, reviews: 3450,
-    amazonKeyword: "Foldable+Laptop+Stand+Portable+Aluminium",
   },
   {
     id: "u20-24",
@@ -278,7 +252,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 5430,
-    amazonKeyword: "Wireless+Charging+Pad+15W+Fast+Charge",
     trending: true,
   },
   {
@@ -289,7 +262,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 6780,
-    amazonKeyword: "Screen+Cleaning+Kit+Microfibre+Spray",
   },
   // Fashion & Accessories
   {
@@ -300,7 +272,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=400&q=80",
     badge: "BEST VALUE", badgeColor: "bg-[#c9a84c]",
     rating: 4.7, reviews: 4560,
-    amazonKeyword: "Minimalist+Leather+Bifold+Wallet+Men",
   },
   {
     id: "u20-27",
@@ -310,7 +281,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400&q=80",
     badge: "BEST VALUE", badgeColor: "bg-[#c9a84c]",
     rating: 4.6, reviews: 1560,
-    amazonKeyword: "Bamboo+Wooden+Watch+Minimalist+Unisex",
   },
   {
     id: "u20-28",
@@ -320,7 +290,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1560343776-97e7d202ff0e?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.8, reviews: 8900,
-    amazonKeyword: "Silk+Scrunchies+Set+10+Pack+Pastel",
     trending: true,
   },
   {
@@ -331,7 +300,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.7, reviews: 3450,
-    amazonKeyword: "Canvas+Tote+Bag+Aesthetic+Printed",
     trending: true,
   },
   {
@@ -342,7 +310,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.9, reviews: 11200,
-    amazonKeyword: "Beaded+Bracelets+Set+Boho+Handmade",
     trending: true,
   },
   // Baby & Kids
@@ -354,7 +321,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.9, reviews: 7650,
-    amazonKeyword: "Baby+Silicone+Teething+Toys+BPA+Free",
   },
   {
     id: "u20-32",
@@ -364,7 +330,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 5430,
-    amazonKeyword: "Kids+Colouring+Book+200+Pages+Animals",
   },
   // Stationery & Office
   {
@@ -375,7 +340,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.8, reviews: 6780,
-    amazonKeyword: "Aesthetic+Journaling+Pens+Set+20+Colours",
     trending: true,
   },
   {
@@ -386,7 +350,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.7, reviews: 4560,
-    amazonKeyword: "A5+Hardcover+Notebook+Dotted+Journal",
     trending: true,
   },
   {
@@ -397,7 +360,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.6, reviews: 3210,
-    amazonKeyword: "Desk+Cable+Management+Clips+20+Pack",
   },
   // Automotive
   {
@@ -408,7 +370,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.7, reviews: 8900,
-    amazonKeyword: "Car+Air+Freshener+Vent+Clip+Luxury+Scent",
     trending: true,
   },
   {
@@ -419,7 +380,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 5670,
-    amazonKeyword: "Microfibre+Car+Cleaning+Cloths+10+Pack",
   },
   // Photography
   {
@@ -430,7 +390,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 4320,
-    amazonKeyword: "Phone+Tripod+Mini+Flexible+Gorilla+Pod",
     trending: true,
   },
   {
@@ -441,7 +400,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.7, reviews: 9870,
-    amazonKeyword: "Ring+Light+10+inch+Selfie+LED+USB",
     trending: true,
   },
   // Gaming
@@ -453,7 +411,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 7650,
-    amazonKeyword: "Gaming+Controller+Thumb+Grips+8+Pack",
   },
   {
     id: "u20-41",
@@ -463,7 +420,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1593640408182-31c228b42b8b?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.7, reviews: 5430,
-    amazonKeyword: "RGB+Gaming+Mouse+Pad+XL+Desk+Mat",
   },
   // Jewellery
   {
@@ -474,7 +430,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.8, reviews: 6780,
-    amazonKeyword: "Gold+Plated+Stacking+Rings+Set+5+Pieces",
     trending: true,
   },
   {
@@ -485,7 +440,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80",
     badge: "VIRAL", badgeColor: "bg-purple-500",
     rating: 4.9, reviews: 8900,
-    amazonKeyword: "Pearl+Drop+Earrings+Minimalist+Gold",
     trending: true,
   },
   // More Gadgets
@@ -497,7 +451,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.6, reviews: 4560,
-    amazonKeyword: "Smart+Plug+WiFi+Alexa+Compatible+4+Pack",
   },
   {
     id: "u20-45",
@@ -507,7 +460,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 7890,
-    amazonKeyword: "Digital+Kitchen+Scale+5kg+Precision",
   },
   {
     id: "u20-46",
@@ -517,7 +469,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&q=80",
     badge: "HOT DEAL", badgeColor: "bg-red-500",
     rating: 4.7, reviews: 6780,
-    amazonKeyword: "Portable+Power+Bank+10000mAh+Slim",
   },
   {
     id: "u20-47",
@@ -527,7 +478,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.7, reviews: 5430,
-    amazonKeyword: "Aromatherapy+Essential+Oil+Diffuser+USB",
     trending: true,
   },
   {
@@ -538,7 +488,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.8, reviews: 9870,
-    amazonKeyword: "Yoga+Mat+Non-Slip+6mm+Thick",
   },
   {
     id: "u20-49",
@@ -548,7 +497,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&q=80",
     badge: "TRENDING", badgeColor: "bg-pink-500",
     rating: 4.6, reviews: 3450,
-    amazonKeyword: "Sunglasses+Polarised+UV400+Unisex",
     trending: true,
   },
   {
@@ -559,7 +507,6 @@ const under20Products: Product[] = [
     image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
     badge: "BEST SELLER", badgeColor: "bg-green-500",
     rating: 4.7, reviews: 4560,
-    amazonKeyword: "Compact+Umbrella+Windproof+Auto+Open",
   },
 ];
 
@@ -635,16 +582,10 @@ export default function Under20Page() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {under20Products.map((product) => {
             const discount = Math.round(((product.originalPrice - product.salePrice) / product.originalPrice) * 100);
-            // rh=p_36%3A-2000 = price under £20 | s=review-rank = sort by reviews
-            const amazonUrl = `https://www.amazon.co.uk/s?k=${product.amazonKeyword}&rh=p_36%3A-2000&s=review-rank&tag=${AFFILIATE_TAG}`;
-
             return (
-              <a
+              <div
                 key={product.id}
-                href={amazonUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex flex-col rounded-2xl bg-[#0e0f1a] border border-white/[0.06] hover:border-purple-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(168,85,247,0.12)] overflow-hidden"
+                className="group relative flex flex-col rounded-2xl bg-[#0e0f1a] border border-white/[0.06] overflow-hidden"
               >
                 {/* Trending Fire */}
                 {product.trending && (
@@ -697,12 +638,12 @@ export default function Under20Page() {
                     </div>
                   </div>
 
-                  {/* CTA */}
-                  <button className="w-full py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-1 mt-1">
-                    <ShoppingBag className="w-3 h-3" /> Buy Now
-                  </button>
+                  {/* CTA - Coming Soon */}
+                  <div className="w-full py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-[#666688] text-xs flex items-center justify-center gap-1 mt-1">
+                    <ShoppingBag className="w-3 h-3" /> Coming Soon
+                  </div>
                 </div>
-              </a>
+              </div>
             );
           })}
         </div>
@@ -712,15 +653,10 @@ export default function Under20Page() {
           <TrendingUp className="w-10 h-10 text-purple-400 mx-auto mb-3" />
           <h3 className="text-white text-2xl font-bold mb-2">Discover More Under £20</h3>
           <p className="text-[#8888aa] mb-5">Thousands more trending products on Amazon UK — all under twenty pounds</p>
-          <a
-            href={`https://www.amazon.co.uk/s?k=trending+products+under+20+pounds&tag=${AFFILIATE_TAG}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold hover:opacity-90 transition-opacity"
-          >
+          <div className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-white/[0.05] border border-white/[0.08] text-[#8888aa] font-semibold">
             <Zap className="w-5 h-5" />
-            Explore More on Amazon UK
-          </a>
+            More products coming soon
+          </div>
           <div className="mt-4">
             <Link href="/deals" className="inline-flex items-center gap-2 text-orange-400 text-sm font-semibold hover:text-orange-300">
               Also check 🔥 Super Deals <ArrowRight className="w-4 h-4" />
