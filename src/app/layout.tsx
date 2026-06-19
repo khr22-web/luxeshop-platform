@@ -21,6 +21,17 @@ export const metadata: Metadata = {
   keywords: ["luxury shopping", "premium products", "LuxeShop London", "designer goods", "luxury electronics", "luxury fashion", "UK luxury store", "online luxury shopping", "aliexpress", "amazon", "luxury deals", "free delivery UK"],
   metadataBase: new URL("https://luxeshoplondon.co.uk"),
   alternates: { canonical: "https://luxeshoplondon.co.uk" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     type: "website",
     locale: "en_GB",
