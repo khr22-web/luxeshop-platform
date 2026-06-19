@@ -635,7 +635,8 @@ export default function Under20Page() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {under20Products.map((product) => {
             const discount = Math.round(((product.originalPrice - product.salePrice) / product.originalPrice) * 100);
-            const amazonUrl = `https://www.amazon.co.uk/s?k=${product.amazonKeyword}&tag=${AFFILIATE_TAG}`;
+            // rh=p_36%3A-2000 = price under £20 | s=review-rank = sort by reviews
+            const amazonUrl = `https://www.amazon.co.uk/s?k=${product.amazonKeyword}&rh=p_36%3A-2000&s=review-rank&tag=${AFFILIATE_TAG}`;
 
             return (
               <a

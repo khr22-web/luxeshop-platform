@@ -95,7 +95,7 @@ export default function SuperDealsSection() {
           {featuredDeals.map((deal) => {
             const discount = calcDiscount(deal.originalPrice, deal.salePrice);
             const savings = (deal.originalPrice - deal.salePrice).toFixed(2);
-            const amazonUrl = `https://www.amazon.co.uk/s?k=${deal.amazonKeyword}&tag=${AFFILIATE_TAG}`;
+            const amazonUrl = `https://www.amazon.co.uk/s?k=${deal.amazonKeyword}&s=review-rank&tag=${AFFILIATE_TAG}`;
 
             return (
               <a
