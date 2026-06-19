@@ -79,6 +79,14 @@ function SearchContent() {
     }
   }, [sort, maxPrice]);
 
+  // Auto-redirect to Amazon UK when query is in the URL
+  useEffect(() => {
+    if (query.trim()) {
+      const encoded = encodeURIComponent(query.trim());
+      window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=luxeshoplondo-21`, "_blank");
+    }
+  }, [query]);
+
   useEffect(() => {
     setPage(1);
     fetchProducts(query, 1, false);
