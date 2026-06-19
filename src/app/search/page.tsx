@@ -84,11 +84,14 @@ function SearchContent() {
     fetchProducts(query, 1, false);
   }, [query, sort, maxPrice, fetchProducts]);
 
+  const AFFILIATE_TAG = "luxeshoplondo-21";
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const params = new URLSearchParams();
-    if (searchInput.trim()) params.set("q", searchInput.trim());
-    router.push(`/search?${params.toString()}`);
+    if (searchInput.trim()) {
+      const encoded = encodeURIComponent(searchInput.trim());
+      window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
+    }
   };
 
   const loadMore = () => {

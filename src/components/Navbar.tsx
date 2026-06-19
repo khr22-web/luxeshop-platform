@@ -29,10 +29,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  const AFFILIATE_TAG = "luxeshoplondo-21";
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchVal.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchVal.trim())}`);
+      const encoded = encodeURIComponent(searchVal.trim());
+      window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
       setSearchOpen(false);
       setSearchVal("");
     }

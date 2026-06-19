@@ -16,10 +16,24 @@ export default function HeroSection() {
   const [source, setSource] = useState("all");
   const router = useRouter();
 
-  const handleSearch = (q: string) => {
+  const AFFILIATE_TAG = "luxeshoplondo-21";
+
+  const handleSearch = (q: string, overrideSource?: string) => {
     const term = q || query;
-    if (term.trim()) router.push(`/search?q=${encodeURIComponent(term.trim())}`);
-    else router.push("/search");
+    const src = overrideSource ?? source;
+    if (!term.trim()) {
+      router.push("/search");
+      return;
+    }
+    const encoded = encodeURIComponent(term.trim());
+    if (src === "aliexpress") {
+      window.open(`https://www.aliexpress.com/wholesale?SearchText=${encoded}`, "_blank");
+    } else if (src === "amazon") {
+      window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
+    } else {
+      // "all" — default to Amazon UK with affiliate tag
+      window.open(`https://www.amazon.co.uk/s?k=${encoded}&tag=${AFFILIATE_TAG}`, "_blank");
+    }
   };
 
   return (
