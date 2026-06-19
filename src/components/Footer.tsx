@@ -67,6 +67,14 @@ function TikTokIcon({ className }: { className?: string }) {
   );
 }
 
+function SnapchatIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.166.006c.088 0 .175.003.262.006 1.43.044 5.26.507 7.007 4.508.602 1.373.457 3.705.34 5.604-.02.322-.039.635-.053.933.19.1.432.17.73.17.28 0 .57-.063.862-.188.13-.055.267-.083.406-.083.27 0 .527.09.724.254.23.19.355.454.348.73-.013.524-.487.96-1.406 1.295-.097.036-.21.072-.334.11-.42.13-.998.308-1.16.657-.09.193-.055.45.103.762.01.02 1.01 2.1 3.11 2.497.22.042.378.233.378.457 0 .05-.008.1-.024.148-.22.667-1.45 1.16-3.758 1.507-.05.007-.1.03-.135.068-.04.044-.057.1-.05.16.03.22.07.44.11.67.06.33.12.67.15 1.01.02.19-.11.37-.3.42-.05.01-.1.02-.15.02-.18 0-.37-.08-.58-.17-.35-.15-.78-.34-1.41-.34-.19 0-.39.02-.6.05-.6.1-1.13.46-1.7.84-.82.55-1.76 1.17-3.15 1.17h-.07c-1.39 0-2.33-.62-3.15-1.17-.57-.38-1.1-.74-1.7-.84-.21-.03-.41-.05-.6-.05-.63 0-1.06.19-1.41.34-.21.09-.4.17-.58.17-.05 0-.1-.01-.15-.02-.19-.05-.32-.23-.3-.42.03-.34.09-.68.15-1.01.04-.23.08-.45.11-.67.007-.06-.01-.116-.05-.16-.035-.038-.085-.061-.135-.068-2.308-.347-3.538-.84-3.758-1.507-.016-.048-.024-.098-.024-.148 0-.224.158-.415.378-.457 2.1-.397 3.1-2.477 3.11-2.497.158-.312.193-.569.103-.762-.162-.349-.74-.527-1.16-.657-.124-.038-.237-.074-.334-.11C.487 13.24.013 12.804 0 12.28c-.007-.276.118-.54.348-.73.197-.164.454-.254.724-.254.139 0 .276.028.406.083.292.125.582.188.862.188.298 0 .54-.07.73-.17-.014-.298-.033-.611-.053-.933-.117-1.899-.262-4.231.34-5.604C4.104.513 7.934.05 9.364.006c.087-.003.174-.006.262-.006h.54z"/>
+    </svg>
+  );
+}
+
 const socialLinks = [
   { Icon: InstagramIcon, label: "Instagram", href: "https://www.instagram.com/luxeshoplondon", color: "#E1306C" },
   { Icon: FacebookIcon, label: "Facebook", href: "https://www.facebook.com/luxeshoplondon", color: "#1877F2" },
@@ -160,6 +168,16 @@ export default function Footer() {
                 className="w-9 h-9 rounded-lg border border-[rgba(225,48,108,0.2)] bg-[rgba(225,48,108,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(225,48,108,0.5)] text-[#E1306C]"
               >
                 <InstagramIcon className="w-4 h-4" />
+              </a>
+              <a
+                href="https://snapchat.com/t/WXdXk8as"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Snapchat"
+                title="Add us on Snapchat"
+                className="w-9 h-9 rounded-lg border border-[rgba(255,252,0,0.2)] bg-[rgba(255,252,0,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(255,252,0,0.5)] text-[#FFFC00]"
+              >
+                <SnapchatIcon className="w-4 h-4" />
               </a>
             </div>
           </div>
