@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Heart, Menu, X, Search, Zap } from "lucide-react";
+import { ShoppingCart, Heart, Menu, X, Search } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import NavbarAuth from "@/components/NavbarAuth";
 
@@ -46,11 +47,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#7c6fff] to-[#38bdf8] flex items-center justify-center shadow-lg group-hover:shadow-[0_0_20px_rgba(124,111,255,0.5)] transition-all duration-300">
-              <Zap className="w-4 h-4 text-white" fill="white" />
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight">Luxe<span className="bg-gradient-to-r from-[#7c6fff] to-[#38bdf8] bg-clip-text text-transparent">Shop</span></span>
+          <Link href="/" className="flex items-center gap-2 group">
+            <Image
+              src="/logo.jpg"
+              alt="LuxeShop London"
+              width={44}
+              height={44}
+              className="rounded-xl object-contain bg-white p-0.5 shadow-lg group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300"
+              priority
+            />
+            <span className="text-white font-bold text-lg tracking-tight hidden sm:inline">Luxe<span className="text-[#c9a84c]">Shop</span> <span className="text-[#8888aa] font-normal text-sm">London</span></span>
           </Link>
 
           {/* Desktop nav */}

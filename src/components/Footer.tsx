@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Zap, Mail } from "lucide-react";
+import Image from "next/image";
+import { Mail } from "lucide-react";
 
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   Shop: [
@@ -82,20 +83,25 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#c9a84c] to-[#9a7a2e] flex items-center justify-center">
-                <Zap className="w-5 h-5 text-black" fill="currentColor" />
-              </div>
+            <div className="flex items-center gap-2.5 mb-4">
+              <Image
+                src="/logo.jpg"
+                alt="LuxeShop London"
+                width={48}
+                height={48}
+                className="rounded-xl object-contain bg-white p-0.5 shadow-md"
+              />
               <span className="text-xl font-bold">
-                <span className="text-gold-gradient">Luxe</span>
+                <span className="text-[#c9a84c]">Luxe</span>
                 <span className="text-white">Shop</span>
+                <span className="text-[#8a8a9a] font-normal text-sm ml-1">London</span>
               </span>
             </div>
             <p className="text-[#8a8a9a] text-sm leading-relaxed mb-6 max-w-xs">
               The UK&apos;s premier luxury shopping destination. Discover, compare, and
               buy from top brands — with free delivery and buyer protection on every order.
             </p>
-            {/* Social Links - Hidden until accounts are ready */}
+            {/* Social Links */}
             <div className="flex items-center gap-3 flex-wrap">
               <a
                 href="mailto:support@luxeshoplondon.co.uk"
@@ -104,6 +110,26 @@ export default function Footer() {
                 className="w-9 h-9 rounded-lg border border-[rgba(201,168,76,0.2)] bg-[rgba(201,168,76,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(201,168,76,0.5)] text-[#c9a84c]"
               >
                 <Mail className="w-4 h-4" />
+              </a>
+              <a
+                href="https://x.com/luxeshoplondon"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X / Twitter"
+                title="Follow us on X"
+                className="w-9 h-9 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(255,255,255,0.3)] text-white"
+              >
+                <TwitterXIcon className="w-4 h-4" />
+              </a>
+              <a
+                href="https://youtube.com/@infoluxeshop"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                title="Subscribe on YouTube"
+                className="w-9 h-9 rounded-lg border border-[rgba(255,0,0,0.2)] bg-[rgba(255,0,0,0.05)] flex items-center justify-center transition-all duration-200 hover:scale-110 hover:border-[rgba(255,0,0,0.5)] text-[#FF0000]"
+              >
+                <YouTubeIcon className="w-4 h-4" />
               </a>
             </div>
           </div>
