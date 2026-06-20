@@ -16,7 +16,7 @@ const sources = [
     hoverBorder: "hover:border-[rgba(255,107,53,0.6)]",
     glowColor: "hover:shadow-[0_0_40px_rgba(255,107,53,0.15)]",
     emoji: "🛒",
-    link: "https://www.aliexpress.com",
+    link: "https://s.click.aliexpress.com/e/_mNvJqeQ",
     features: [
       "100M+ products",
       "Factory-direct pricing",

@@ -23,6 +23,7 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
   Legal: [
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Service", href: "/terms" },
+    { label: "Affiliate Disclosure", href: "/affiliate-disclosure" },
     { label: "Cookie Policy", href: "/privacy" },
     { label: "Buyer Protection", href: "/about" },
   ],
@@ -279,6 +280,8 @@ export default function Footer() {
               <Link href="/privacy" className="hover:text-[#c9a84c] transition-colors">Privacy</Link>
               <span>·</span>
               <Link href="/terms" className="hover:text-[#c9a84c] transition-colors">Terms</Link>
+              <span>·</span>
+              <Link href="/affiliate-disclosure" className="hover:text-[#c9a84c] transition-colors">Affiliate Disclosure</Link>
               <span>·</span>
               <Link href="/contact" className="hover:text-[#c9a84c] transition-colors">Contact</Link>
             </div>

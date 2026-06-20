@@ -56,7 +56,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {/* Wishlist */}
         <button
           onClick={(e) => { e.preventDefault(); setWishlisted(!wishlisted); }}
-          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
           style={{ background: "rgba(0,0,0,0.6)" }}
         >
           <Heart size={14} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "white"} />
