@@ -1,176 +1,164 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Flame, Clock, ArrowRight, Tag } from "lucide-react";
+import { Clock, Flame, Tag } from "lucide-react";
 
-const AFFILIATE_TAG = "luxeshoplondo-21";
+interface Deal {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  price: number;
+  originalPrice: number;
+  badge: string;
+  source: "amazon" | "aliexpress";
+  url: string;
+  endsIn: number;
+}
 
-const featuredDeals = [
+const DEALS: Deal[] = [
   {
-    id: "fd-1",
-    name: "Apple AirPods Pro (2nd Gen)",
+    id: "sd1",
+    title: "Apple AirPods Pro (2nd Gen) — Active Noise Cancellation",
     category: "Audio",
+    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=600&q=80",
+    price: 139.99,
     originalPrice: 249.99,
-    salePrice: 139.99,
-    image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&q=80",
-    badge: "HOT DEAL" as const,
-    amazonKeyword: "Apple+AirPods+Pro+2nd+Generation",
-    durationHours: 6,
+    badge: "HOT DEAL",
+    source: "amazon",
+    url: "https://www.amazon.co.uk/s?k=apple+airpods+pro+2nd+gen&tag=luxeshoplondo-21",
+    endsIn: 9900,
   },
   {
-    id: "fd-2",
-    name: "Sony WH-1000XM5 Headphones",
+    id: "sd2",
+    title: "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
     category: "Audio",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",
+    price: 199.99,
     originalPrice: 379.99,
-    salePrice: 199.99,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
-    badge: "FLASH SALE" as const,
-    amazonKeyword: "Sony+WH-1000XM5+Wireless+Headphones",
-    durationHours: 4,
+    badge: "FLASH SALE",
+    source: "amazon",
+    url: "https://www.amazon.co.uk/s?k=sony+wh1000xm5+headphones&tag=luxeshoplondo-21",
+    endsIn: 5400,
   },
   {
-    id: "fd-3",
-    name: "Apple Watch Series 9 GPS 45mm",
-    category: "Watches",
-    originalPrice: 499.99,
-    salePrice: 299.99,
-    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80",
-    badge: "FLASH SALE" as const,
-    amazonKeyword: "Apple+Watch+Series+9+GPS+Cellular",
-    durationHours: 8,
+    id: "sd3",
+    title: "Dyson V15 Detect Cordless Vacuum Cleaner",
+    category: "Home",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+    price: 349.99,
+    originalPrice: 649.99,
+    badge: "MEGA DEAL",
+    source: "amazon",
+    url: "https://www.amazon.co.uk/s?k=dyson+v15+detect+cordless&tag=luxeshoplondo-21",
+    endsIn: 14400,
   },
   {
-    id: "fd-4",
-    name: "PlayStation 5 Console — Disc Edition",
-    category: "Gaming",
-    originalPrice: 549.99,
-    salePrice: 399.99,
-    image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&q=80",
-    badge: "HOT DEAL" as const,
-    amazonKeyword: "PlayStation+5+Console+Disc+Edition",
-    durationHours: 5,
+    id: "sd4",
+    title: "Samsung 65\" QLED 4K Smart TV — Crystal Display",
+    category: "Electronics",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=80",
+    price: 599.99,
+    originalPrice: 999.99,
+    badge: "LIMITED",
+    source: "amazon",
+    url: "https://www.amazon.co.uk/s?k=samsung+65+qled+4k+smart+tv&tag=luxeshoplondo-21",
+    endsIn: 21600,
   },
 ];
 
-function badgeStyle(badge: "HOT DEAL" | "FLASH SALE" | "LIMITED" | "BEST VALUE") {
-  switch (badge) {
-    case "HOT DEAL": return "bg-red-500 text-white";
-    case "FLASH SALE": return "bg-orange-500 text-white";
-    case "LIMITED": return "bg-purple-600 text-white";
-    case "BEST VALUE": return "bg-green-600 text-white";
-  }
-}
-
-function calcDiscount(original: number, sale: number) {
-  return Math.round(((original - sale) / original) * 100);
-}
-
-function getDealEndTime(dealId: string, durationHours: number): Date {
-  const now = new Date();
-  const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const hash = dealId.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  const offsetMs = (hash % (24 - durationHours)) * 60 * 60 * 1000;
-  const endTime = new Date(dayStart.getTime() + offsetMs + durationHours * 60 * 60 * 1000);
-  if (endTime <= now) {
-    endTime.setTime(endTime.getTime() + 24 * 60 * 60 * 1000);
-  }
-  return endTime;
-}
-
-function formatCountdown(ms: number): string {
-  if (ms <= 0) return "00:00:00";
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-}
-
-function DealTimer({ dealId, durationHours }: { dealId: string; durationHours: number }) {
-  const [timeLeft, setTimeLeft] = useState<string>("");
-
+function useCountdown(seconds: number) {
+  const [timeLeft, setTimeLeft] = useState(seconds);
   useEffect(() => {
-    const endTime = getDealEndTime(dealId, durationHours);
-    const tick = () => {
-      const remaining = endTime.getTime() - Date.now();
-      setTimeLeft(formatCountdown(remaining));
-    };
-    tick();
-    const interval = setInterval(tick, 1000);
+    const interval = setInterval(() => {
+      setTimeLeft((t) => (t > 0 ? t - 1 : 0));
+    }, 1000);
     return () => clearInterval(interval);
-  }, [dealId, durationHours]);
+  }, []);
+  const h = Math.floor(timeLeft / 3600);
+  const m = Math.floor((timeLeft % 3600) / 60);
+  const s = timeLeft % 60;
+  return `${h}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`;
+}
+
+function DealCard({ deal }: { deal: Deal }) {
+  const countdown = useCountdown(deal.endsIn);
+  const discount = Math.round(((deal.originalPrice - deal.price) / deal.originalPrice) * 100);
+  const save = (deal.originalPrice - deal.price).toFixed(2);
 
   return (
-    <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 border border-white/10">
-      <Clock className="w-3 h-3 text-orange-400" />
-      <span className="text-orange-400 text-[11px] font-bold font-mono">{timeLeft || "..."}</span>
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300 group">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+        <Image
+          src={deal.image}
+          alt={deal.title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+        <div className="absolute top-3 left-3 flex gap-2">
+          <span className="px-2.5 py-1 rounded-lg text-xs font-black text-white bg-red-500 shadow-sm">{deal.badge}</span>
+          <span className="px-2.5 py-1 rounded-lg text-xs font-black text-white bg-[#1a1a2e] shadow-sm">-{discount}%</span>
+        </div>
+        <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/70 text-white text-xs font-bold backdrop-blur-sm">
+          <Clock className="w-3 h-3" />
+          {countdown}
+        </div>
+        <div className={`absolute bottom-3 left-3 px-2 py-0.5 rounded-md text-[10px] font-bold text-white ${deal.source === "amazon" ? "bg-[#f90]" : "bg-[#e8441a]"}`}>
+          {deal.source === "amazon" ? "Amazon UK" : "AliExpress"}
+        </div>
+      </div>
+      <div className="p-4">
+        <div className="flex items-center gap-1.5 mb-2">
+          <Tag className="w-3 h-3 text-gray-400" />
+          <span className="text-xs text-gray-400 font-medium">{deal.category}</span>
+        </div>
+        <h3 className="font-bold text-[#0f0f0f] text-sm leading-snug mb-3 line-clamp-2">{deal.title}</h3>
+        <div className="flex items-end gap-2 mb-4">
+          <span className="text-2xl font-black text-[#1a1a2e]">£{deal.price.toFixed(2)}</span>
+          <span className="text-sm text-gray-400 line-through mb-0.5">£{deal.originalPrice.toFixed(2)}</span>
+          <span className="text-sm font-bold text-green-600 mb-0.5">Save £{save}</span>
+        </div>
+        <a
+          href={deal.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#1a1a2e] text-white text-sm font-bold hover:bg-[#0f3460] transition-colors shadow-sm"
+        >
+          <Flame className="w-4 h-4 text-orange-400" />
+          Grab This Deal
+        </a>
+      </div>
     </div>
   );
 }
 
 export default function SuperDealsSection() {
   return (
-    <section className="py-16 bg-[#07080F] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,100,0,0.07),transparent_60%)] pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+    <section className="bg-white py-14 border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Flame className="w-6 h-6 text-orange-500 animate-pulse" />
-              <span className="text-orange-400 text-sm font-bold uppercase tracking-widest">Limited Time</span>
+              <Flame className="w-5 h-5 text-orange-500" />
+              <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Limited Time</span>
             </div>
-            <h2 className="text-3xl font-black text-white">🔥 Super Deals</h2>
-            <p className="text-[#8888aa] text-sm mt-1">Massive savings — up to <span className="text-orange-400 font-bold">70% OFF</span> today only</p>
+            <h2 className="text-2xl md:text-3xl font-black text-[#0f0f0f] tracking-tight">Super Deals</h2>
+            <p className="text-gray-500 text-sm mt-1">Massive savings — up to <span className="font-bold text-red-500">70% OFF</span> today only</p>
           </div>
-          <Link href="/deals" className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 font-semibold text-sm hover:bg-orange-500/20 hover:border-orange-500/50 transition-all">
-            View All Deals <ArrowRight className="w-4 h-4" />
+          <Link href="/deals" className="hidden sm:flex items-center gap-1 px-5 py-2.5 rounded-xl border-2 border-[#1a1a2e] text-[#1a1a2e] text-sm font-bold hover:bg-[#1a1a2e] hover:text-white transition-all">
+            View All Deals →
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredDeals.map((deal) => {
-            const discount = calcDiscount(deal.originalPrice, deal.salePrice);
-            const savings = (deal.originalPrice - deal.salePrice).toFixed(2);
-            const amazonUrl = `https://www.amazon.co.uk/s?k=${deal.amazonKeyword}&s=review-rank&tag=${AFFILIATE_TAG}`;
-            return (
-              <a key={deal.id} href={amazonUrl} target="_blank" rel="noopener noreferrer"
-                className="group relative flex flex-col rounded-2xl bg-[#0e0f1a] border border-white/[0.06] hover:border-orange-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,100,0,0.12)] overflow-hidden">
-                <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-                  <span className={`px-2 py-0.5 rounded-md text-[11px] font-black uppercase ${badgeStyle(deal.badge)}`}>{deal.badge}</span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-black bg-[#c9a84c] text-black">-{discount}%</span>
-                </div>
-                <DealTimer dealId={deal.id} durationHours={deal.durationHours} />
-                <div className="h-44 overflow-hidden bg-[#13141f]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={deal.image} alt={deal.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-4 flex flex-col gap-2 flex-1">
-                  <div className="flex items-center gap-1">
-                    <Tag className="w-3 h-3 text-[#8888aa]" />
-                    <span className="text-[#8888aa] text-xs">{deal.category}</span>
-                  </div>
-                  <h3 className="text-white text-sm font-semibold line-clamp-2 group-hover:text-orange-300 transition-colors leading-snug">{deal.name}</h3>
-                  <div className="mt-auto pt-2">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-black text-orange-400">£{deal.salePrice.toFixed(2)}</span>
-                      <span className="text-sm text-[#666688] line-through">£{deal.originalPrice.toFixed(2)}</span>
-                    </div>
-                    <span className="text-green-400 text-xs font-semibold">Save £{savings}</span>
-                  </div>
-                  <button className="w-full mt-2 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5">
-                    <Flame className="w-3.5 h-3.5" /> Grab This Deal
-                  </button>
-                </div>
-              </a>
-            );
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {DEALS.map((deal) => (
+            <DealCard key={deal.id} deal={deal} />
+          ))}
         </div>
-        <div className="mt-6 flex items-center justify-between px-6 py-4 rounded-2xl bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20">
-          <div className="flex items-center gap-3">
-            <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
-            <span className="text-white font-semibold text-sm">More deals available — updated daily!</span>
-          </div>
-          <Link href="/deals" className="text-orange-400 text-sm font-bold hover:text-orange-300 flex items-center gap-1">
-            See All <ArrowRight className="w-4 h-4" />
+        <div className="mt-6 sm:hidden">
+          <Link href="/deals" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-[#1a1a2e] text-[#1a1a2e] text-sm font-bold">
+            View All Deals →
           </Link>
         </div>
       </div>

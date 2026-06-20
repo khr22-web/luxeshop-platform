@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingCart, Heart, Zap } from "lucide-react";
+import { Star, ShoppingCart, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 
@@ -22,6 +22,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
+  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     addItem({
@@ -37,9 +39,12 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <Link href={`/product/${product.id}`} className="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ background: "var(--bg-card)", borderColor: "var(--border-color)" }}>
+    <Link
+      href={`/product/${product.id}`}
+      className="group block bg-white rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
+    >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
+      <div className="relative aspect-square overflow-hidden bg-gray-50">
         <Image
           src={product.image}
           alt={product.title}
@@ -47,52 +52,65 @@ export default function ProductCard({ product }: { product: Product }) {
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 50vw, 25vw"
         />
-        {/* Badge */}
-        {product.badge && (
-          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-xs font-bold text-white" style={{ background: "var(--gradient-primary)" }}>
-            {product.badge}
+
+        {/* Discount badge */}
+        {discount > 0 && (
+          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-xs font-bold text-white bg-red-500">
+            -{discount}%
           </div>
         )}
+
+        {/* Source badge */}
+        <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold text-white ${product.source === "amazon" ? "bg-[#f90]" : "bg-[#e8441a]"}`}>
+          {product.source === "amazon" ? "Amazon" : "AliExpress"}
+        </div>
+
         {/* Wishlist */}
         <button
           onClick={(e) => { e.preventDefault(); setWishlisted(!wishlisted); }}
-          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
-          style={{ background: "rgba(0,0,0,0.6)" }}
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all hover:scale-110"
         >
-          <Heart size={14} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "white"} />
+          <Heart size={14} fill={wishlisted ? "#ef4444" : "none"} color={wishlisted ? "#ef4444" : "#374151"} />
         </button>
-
       </div>
 
       {/* Info */}
       <div className="p-3">
-        <p className="text-xs font-medium line-clamp-2 mb-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+        {/* Badge */}
+        {product.badge && (
+          <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold text-white bg-[#1a1a2e] mb-1.5">
+            {product.badge}
+          </span>
+        )}
+
+        <p className="text-xs font-medium text-gray-700 line-clamp-2 mb-2 leading-relaxed">
           {product.title}
         </p>
 
         {/* Rating */}
         <div className="flex items-center gap-1 mb-2">
-          <Star size={11} fill="#f59e0b" color="#f59e0b" />
-          <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
-            {product.rating} ({product.orders.toLocaleString()})
-          </span>
+          <div className="flex">
+            {[1,2,3,4,5].map((s) => (
+              <Star key={s} size={10} fill={s <= Math.round(product.rating) ? "#f59e0b" : "#e5e7eb"} color={s <= Math.round(product.rating) ? "#f59e0b" : "#e5e7eb"} />
+            ))}
+          </div>
+          <span className="text-[10px] text-gray-400">({product.orders.toLocaleString()})</span>
         </div>
 
         {/* Price */}
         <div className="flex items-center justify-between">
-          <div className="font-bold text-base" style={{ color: "var(--accent-primary)" }}>
-            £{product.price.toFixed(2)}
+          <div>
+            <span className="font-black text-base text-[#1a1a2e]">£{product.price.toFixed(2)}</span>
+            {product.originalPrice > product.price && (
+              <span className="text-xs text-gray-400 line-through ml-1.5">£{product.originalPrice.toFixed(2)}</span>
+            )}
           </div>
           <button
             onClick={handleAdd}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-all"
-            style={{ background: added ? "#10b981" : "var(--gradient-primary)" }}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-all ${added ? "bg-green-500" : "bg-[#1a1a2e] hover:bg-[#0f3460]"}`}
           >
-            {added ? (
-              <><Zap size={12} /> Added!</>
-            ) : (
-              <><ShoppingCart size={12} /> Add</>
-            )}
+            <ShoppingCart size={11} />
+            {added ? "Added!" : "Add"}
           </button>
         </div>
       </div>
