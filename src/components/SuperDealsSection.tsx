@@ -1,3 +1,5 @@
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Flame, Clock, ArrowRight, Tag } from "lucide-react";
 
@@ -13,7 +15,7 @@ const featuredDeals = [
     image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&q=80",
     badge: "HOT DEAL" as const,
     amazonKeyword: "Apple+AirPods+Pro+2nd+Generation",
-    timeLeft: "2h 45m",
+    durationHours: 6,
   },
   {
     id: "fd-2",
@@ -24,7 +26,7 @@ const featuredDeals = [
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
     badge: "FLASH SALE" as const,
     amazonKeyword: "Sony+WH-1000XM5+Wireless+Headphones",
-    timeLeft: "1h 30m",
+    durationHours: 4,
   },
   {
     id: "fd-3",
@@ -35,7 +37,7 @@ const featuredDeals = [
     image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80",
     badge: "FLASH SALE" as const,
     amazonKeyword: "Apple+Watch+Series+9+GPS+Cellular",
-    timeLeft: "3h 20m",
+    durationHours: 8,
   },
   {
     id: "fd-4",
@@ -46,7 +48,7 @@ const featuredDeals = [
     image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&q=80",
     badge: "HOT DEAL" as const,
     amazonKeyword: "PlayStation+5+Console+Disc+Edition",
-    timeLeft: "1h 55m",
+    durationHours: 5,
   },
 ];
 
@@ -63,85 +65,90 @@ function calcDiscount(original: number, sale: number) {
   return Math.round(((original - sale) / original) * 100);
 }
 
+function getDealEndTime(dealId: string, durationHours: number): Date {
+  const now = new Date();
+  const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const hash = dealId.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const offsetMs = (hash % (24 - durationHours)) * 60 * 60 * 1000;
+  const endTime = new Date(dayStart.getTime() + offsetMs + durationHours * 60 * 60 * 1000);
+  if (endTime <= now) {
+    endTime.setTime(endTime.getTime() + 24 * 60 * 60 * 1000);
+  }
+  return endTime;
+}
+
+function formatCountdown(ms: number): string {
+  if (ms <= 0) return "00:00:00";
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function DealTimer({ dealId, durationHours }: { dealId: string; durationHours: number }) {
+  const [timeLeft, setTimeLeft] = useState<string>("");
+
+  useEffect(() => {
+    const endTime = getDealEndTime(dealId, durationHours);
+    const tick = () => {
+      const remaining = endTime.getTime() - Date.now();
+      setTimeLeft(formatCountdown(remaining));
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [dealId, durationHours]);
+
+  return (
+    <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 border border-white/10">
+      <Clock className="w-3 h-3 text-orange-400" />
+      <span className="text-orange-400 text-[11px] font-bold font-mono">{timeLeft || "..."}</span>
+    </div>
+  );
+}
+
 export default function SuperDealsSection() {
   return (
     <section className="py-16 bg-[#07080F] relative overflow-hidden">
-      {/* Background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,100,0,0.07),transparent_60%)] pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Flame className="w-6 h-6 text-orange-500 animate-pulse" />
               <span className="text-orange-400 text-sm font-bold uppercase tracking-widest">Limited Time</span>
             </div>
-            <h2 className="text-3xl font-black text-white">
-              🔥 Super Deals
-            </h2>
+            <h2 className="text-3xl font-black text-white">🔥 Super Deals</h2>
             <p className="text-[#8888aa] text-sm mt-1">Massive savings — up to <span className="text-orange-400 font-bold">70% OFF</span> today only</p>
           </div>
-          <Link
-            href="/deals"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 font-semibold text-sm hover:bg-orange-500/20 hover:border-orange-500/50 transition-all"
-          >
+          <Link href="/deals" className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 font-semibold text-sm hover:bg-orange-500/20 hover:border-orange-500/50 transition-all">
             View All Deals <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-
-        {/* Deals Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {featuredDeals.map((deal) => {
             const discount = calcDiscount(deal.originalPrice, deal.salePrice);
             const savings = (deal.originalPrice - deal.salePrice).toFixed(2);
             const amazonUrl = `https://www.amazon.co.uk/s?k=${deal.amazonKeyword}&s=review-rank&tag=${AFFILIATE_TAG}`;
-
             return (
-              <a
-                key={deal.id}
-                href={amazonUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex flex-col rounded-2xl bg-[#0e0f1a] border border-white/[0.06] hover:border-orange-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,100,0,0.12)] overflow-hidden"
-              >
-                {/* Badges */}
+              <a key={deal.id} href={amazonUrl} target="_blank" rel="noopener noreferrer"
+                className="group relative flex flex-col rounded-2xl bg-[#0e0f1a] border border-white/[0.06] hover:border-orange-500/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,100,0,0.12)] overflow-hidden">
                 <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-                  <span className={`px-2 py-0.5 rounded-md text-[11px] font-black uppercase ${badgeStyle(deal.badge)}`}>
-                    {deal.badge}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-black bg-[#c9a84c] text-black">
-                    -{discount}%
-                  </span>
+                  <span className={`px-2 py-0.5 rounded-md text-[11px] font-black uppercase ${badgeStyle(deal.badge)}`}>{deal.badge}</span>
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-black bg-[#c9a84c] text-black">-{discount}%</span>
                 </div>
-
-                {/* Timer */}
-                <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 border border-white/10">
-                  <Clock className="w-3 h-3 text-orange-400" />
-                  <span className="text-orange-400 text-[11px] font-bold">{deal.timeLeft}</span>
-                </div>
-
-                {/* Image */}
+                <DealTimer dealId={deal.id} durationHours={deal.durationHours} />
                 <div className="h-44 overflow-hidden bg-[#13141f]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={deal.image}
-                    alt={deal.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  <img src={deal.image} alt={deal.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
-
-                {/* Content */}
                 <div className="p-4 flex flex-col gap-2 flex-1">
                   <div className="flex items-center gap-1">
                     <Tag className="w-3 h-3 text-[#8888aa]" />
                     <span className="text-[#8888aa] text-xs">{deal.category}</span>
                   </div>
-                  <h3 className="text-white text-sm font-semibold line-clamp-2 group-hover:text-orange-300 transition-colors leading-snug">
-                    {deal.name}
-                  </h3>
-
-                  {/* Price */}
+                  <h3 className="text-white text-sm font-semibold line-clamp-2 group-hover:text-orange-300 transition-colors leading-snug">{deal.name}</h3>
                   <div className="mt-auto pt-2">
                     <div className="flex items-baseline gap-2">
                       <span className="text-xl font-black text-orange-400">£{deal.salePrice.toFixed(2)}</span>
@@ -149,7 +156,6 @@ export default function SuperDealsSection() {
                     </div>
                     <span className="text-green-400 text-xs font-semibold">Save £{savings}</span>
                   </div>
-
                   <button className="w-full mt-2 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5">
                     <Flame className="w-3.5 h-3.5" /> Grab This Deal
                   </button>
@@ -158,8 +164,6 @@ export default function SuperDealsSection() {
             );
           })}
         </div>
-
-        {/* Bottom Banner */}
         <div className="mt-6 flex items-center justify-between px-6 py-4 rounded-2xl bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20">
           <div className="flex items-center gap-3">
             <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
